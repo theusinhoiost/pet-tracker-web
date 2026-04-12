@@ -11,7 +11,6 @@ import {
   LogIn,
 } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle"; // Ajuste o caminho se necessário
-import clsx from "clsx";
 
 export default function HomePage() {
   const features = [
@@ -56,7 +55,7 @@ export default function HomePage() {
               <Link href="/login">Entrar</Link>
             </Button>
             <Button asChild>
-              <Link href="/register">Cadastrar</Link>
+              <Link href="/signup">Cadastrar</Link>
             </Button>
           </div>
         </nav>
@@ -93,7 +92,7 @@ export default function HomePage() {
                 className="text-lg px-8 h-12 w-full sm:w-auto"
                 asChild
               >
-                <Link href="/register">Começar Agora</Link>
+                <Link href="/signup">Começar Agora</Link>
               </Button>
               <Button
                 size="lg"
@@ -165,7 +164,7 @@ export default function HomePage() {
               className="whitespace-nowrap w-full md:w-auto"
               asChild
             >
-              <Link href="/register">Quero me Cadastrar</Link>
+              <Link href="/signup">Quero me Cadastrar</Link>
             </Button>
           </div>
         </section>

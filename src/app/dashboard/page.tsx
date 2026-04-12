@@ -1,4 +1,4 @@
-import { PetCard } from "@/components/PetCard";
+import { PetCard } from "@/components/pet-card";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Bell, Activity, Heart } from "lucide-react";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { LoginForm } from "@/components/login-form";
-import { PawPrint } from "lucide-react";
+import { LuPawPrint } from "react-icons/lu";
 
 export default function LoginPage() {
   return (
@@ -9,7 +9,7 @@ export default function LoginPage() {
       <div className="flex w-full max-w-sm flex-col gap-6">
         <a href="#" className="flex items-center gap-2 self-center font-medium">
           <div className="flex size-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
-            <PawPrint className="size-4" />
+            <LuPawPrint className="size-4" />
           </div>
           PetTracker
         </a>

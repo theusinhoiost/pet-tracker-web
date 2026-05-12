@@ -1,6 +1,6 @@
 import { PetCard } from "@/components/pet-card";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Bell, Activity, Heart } from "lucide-react";
+import { LuBell, LuActivity, LuHeart } from "react-icons/lu";
 
 // Mock de dados (Simulando o que viria do NestJS)
 const MY_PETS = [
@@ -28,7 +28,7 @@ export default function DashboardPage() {
         <Card className="bg-card shadow-sm border-border/50">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Pets Ativos</CardTitle>
-            <Heart className="h-4 w-4 text-primary" />
+            <LuHeart className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">2</div>
@@ -43,7 +43,7 @@ export default function DashboardPage() {
             <CardTitle className="text-sm font-medium">
               Alertas Próximos
             </CardTitle>
-            <Bell className="h-4 w-4 text-destructive" />
+            <LuBell className="h-4 w-4 text-destructive" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">1</div>
@@ -58,7 +58,7 @@ export default function DashboardPage() {
             <CardTitle className="text-sm font-medium">
               Última Atividade
             </CardTitle>
-            <Activity className="h-4 w-4 text-chart-1" />
+            <LuActivity className="h-4 w-4 text-chart-1" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">Hoje</div>
@@ -78,6 +78,7 @@ export default function DashboardPage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* USAR GRID REACT LAYOUT????? */}
           {MY_PETS.map((pet) => (
             <PetCard
               key={pet.id}

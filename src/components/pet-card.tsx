@@ -3,9 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Syringe, PawPrint, Eye, MoreVertical } from "lucide-react";
+import { LuSyringe, LuPawPrint, LuEye, LuMoveVertical } from "react-icons/lu";
+import clsx from "clsx";
 
-// Interface para tipar as propriedades do componente
 interface PetCardProps {
   id: string;
   name: string;
@@ -41,7 +41,7 @@ export function PetCard({
             {name}
           </CardTitle>
           <p className="text-sm text-muted-foreground truncate flex items-center gap-1.5">
-            <PawPrint className="h-3.5 w-3.5" />
+            <LuPawPrint className="h-3.5 w-3.5" />
             {breed}
           </p>
         </div>
@@ -51,7 +51,7 @@ export function PetCard({
           size="icon"
           className="rounded-full h-8 w-8 text-muted-foreground hover:text-foreground"
         >
-          <MoreVertical className="h-4 w-4" />
+          <LuMoveVertical className="h-4 w-4" />
         </Button>
       </CardHeader>
 
@@ -59,13 +59,15 @@ export function PetCard({
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between gap-2 p-3 rounded-lg bg-muted dark:bg-muted/50 border border-border/50">
             <div className="flex items-center gap-2.5 text-sm text-foreground/90 font-medium">
-              <Syringe className="h-5 w-5 text-primary" />
+              <LuSyringe className="h-5 w-5 text-primary" />
               <span>Próxima Vacina:</span>
             </div>
-            {/* Usamos o teu primary para destacar a data */}
             <Badge
-              variant="secondary"
-              className="font-mono text-sm bg-primary/10 text-primary hover:bg-primary/20 border-primary/20"
+              variant="outline"
+              className={clsx(
+                "font-mono text-md bg-primary text-primary-foreground",
+                "hover:text-foreground hover:transform hover:bg-primary/30",
+              )}
             >
               {nextVaccineDate}
             </Badge>
@@ -78,7 +80,7 @@ export function PetCard({
             asChild
           >
             <Link href={`/dashboard/pet/${id}`}>
-              <Eye className="h-4 w-4 text-primary" />
+              <LuEye className="h-4 w-4 text-primary" />
               Ver Ficha Completa
             </Link>
           </Button>

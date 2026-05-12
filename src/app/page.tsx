@@ -3,35 +3,35 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
-  PawPrint,
-  CalendarHeart,
-  Syringe,
-  Pill,
-  BellRing,
-  LogIn,
-} from "lucide-react";
+  LuPawPrint,
+  LuCalendarHeart,
+  LuSyringe,
+  LuPill,
+  LuBellRing,
+  LuLogIn,
+} from "react-icons/lu";
 import { ThemeToggle } from "@/components/ThemeToggle"; // Ajuste o caminho se necessário
 
 export default function HomePage() {
   const features = [
     {
-      icon: Syringe,
+      icon: LuSyringe,
       title: "Controle de Vacinas",
       description: "Histórico completo de vacinas aplicadas e próximas doses.",
     },
     {
-      icon: Pill,
+      icon: LuPill,
       title: "Medicação e Vermífugos",
       description: "Gerencie cronogramas de remédios e evite esquecimentos.",
     },
     {
-      icon: CalendarHeart,
+      icon: LuCalendarHeart,
       title: "Histórico Médico",
       description:
         "Registre consultas, exames, peso e observações importantes.",
     },
     {
-      icon: BellRing,
+      icon: LuBellRing,
       title: "Alertas Inteligentes",
       description:
         "Receba notificações antes do vencimento de qualquer compromisso.",
@@ -44,7 +44,7 @@ export default function HomePage() {
       <header className="border-b sticky top-0 bg-background/80 backdrop-blur-md z-50">
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <PawPrint className="h-7 w-7 text-primary" />
+            <LuPawPrint className="h-7 w-7 text-primary" />
             <span className="text-2xl font-bold tracking-tight">
               Pet<span className="text-primary">Tracker</span>
             </span>
@@ -72,7 +72,8 @@ export default function HomePage() {
               variant="outline"
               className="mb-6 px-3 py-1 gap-1.5 shadow-sm"
             >
-              <PawPrint className="h-3.5 w-3.5" />O Guardião da Saúde do seu Pet
+              <LuPawPrint className="h-3.5 w-3.5" />O Guardião da Saúde do seu
+              Pet
             </Badge>
 
             <h1 className="text-5xl md:text-6xl font-extrabold tracking-tighter max-w-3xl leading-tight text-foreground">
@@ -101,7 +102,7 @@ export default function HomePage() {
                 asChild
               >
                 <Link href="/dashboard">
-                  <LogIn className="h-5 w-5" />
+                  <LuLogIn className="h-5 w-5" />
                   Acessar Painel
                 </Link>
               </Button>
@@ -174,7 +175,7 @@ export default function HomePage() {
       <footer className="bg-background">
         <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
-            <PawPrint className="h-4 w-4" />
+            <LuPawPrint className="h-4 w-4" />
             <span className="font-semibold">PetTracker Inc.</span>
           </div>
           <p>&copy; {new Date().getFullYear()} Todos os direitos reservados.</p>

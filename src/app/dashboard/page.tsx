@@ -1,6 +1,14 @@
 import { PetCard } from "@/components/pet-card";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { PlusCircle } from "lucide-react";
+import { Metadata } from "next";
+import Link from "next/link";
 import { LuBell, LuActivity, LuHeart } from "react-icons/lu";
+
+export const metadata: Metadata = {
+  title: "Seus Pets",
+};
 
 // Mock de dados (Simulando o que viria do NestJS)
 const MY_PETS = [
@@ -13,6 +21,34 @@ const MY_PETS = [
   },
   {
     id: "2",
+    name: "Luna",
+    breed: "Gato Persa",
+    nextVaccine: "20/05/2026",
+    status: "Alerta",
+  },
+  {
+    id: "3",
+    name: "Luna",
+    breed: "Gato Persa",
+    nextVaccine: "20/05/2026",
+    status: "Alerta",
+  },
+  {
+    id: "24",
+    name: "Luna",
+    breed: "Gato Persa",
+    nextVaccine: "20/05/2026",
+    status: "Alerta",
+  },
+  {
+    id: "234",
+    name: "Luna",
+    breed: "Gato Persa",
+    nextVaccine: "20/05/2026",
+    status: "Alerta",
+  },
+  {
+    id: "255",
     name: "Luna",
     breed: "Gato Persa",
     nextVaccine: "20/05/2026",
@@ -75,6 +111,12 @@ export default function DashboardPage() {
           <h2 className="text-2xl font-bold tracking-tight text-foreground">
             Os Meus Animais
           </h2>
+          <Link href={"/addpet"}>
+            <Button size="sm" className="gap-2">
+              <PlusCircle className="h-4 w-4" />
+              Adicionar Pet
+            </Button>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

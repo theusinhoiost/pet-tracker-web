@@ -3,14 +3,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { LuSyringe, LuPawPrint, LuEye, LuMoveVertical } from "react-icons/lu";
+import { LuSyringe, LuPawPrint, LuEye } from "react-icons/lu";
 import clsx from "clsx";
+import { PencilIcon } from "lucide-react";
 
 interface PetCardProps {
   id: string;
   name: string;
   breed: string;
   nextVaccineDate: string;
+  showButton?: boolean; // Opcional
   imageUrl?: string; // Opcional
 }
 
@@ -20,6 +22,7 @@ export function PetCard({
   breed,
   nextVaccineDate,
   imageUrl,
+  showButton = true,
 }: PetCardProps) {
   // Lógica simples para pegar as iniciais do nome caso não haja imagem
   const initials = name.substring(0, 2).toUpperCase();
@@ -51,7 +54,7 @@ export function PetCard({
           size="icon"
           className="rounded-full h-8 w-8 text-muted-foreground hover:text-foreground"
         >
-          <LuMoveVertical className="h-4 w-4" />
+          <PencilIcon className="h-4 w-4" />
         </Button>
       </CardHeader>
 
@@ -72,18 +75,19 @@ export function PetCard({
               {nextVaccineDate}
             </Badge>
           </div>
-
-          <Button
-            size="sm"
-            variant="outline"
-            className="w-full gap-2 group-hover:border-primary/50 group-hover:bg-primary/5 transition-all"
-            asChild
-          >
-            <Link href={`/dashboard/pet/${id}`}>
-              <LuEye className="h-4 w-4 text-primary" />
-              Ver Ficha Completa
-            </Link>
-          </Button>
+          {showButton && (
+            <Button
+              size="sm"
+              variant="outline"
+              className="w-full gap-2 group-hover:border-primary/50 group-hover:bg-primary/5 transition-all"
+              asChild
+            >
+              <Link href={`/dashboard/pet/${id}`}>
+                <LuEye className="h-4 w-4 text-primary" />
+                Ver Ficha Completa
+              </Link>
+            </Button>
+          )}
         </div>
       </CardContent>
     </Card>

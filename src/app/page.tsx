@@ -11,6 +11,7 @@ import {
   LuLogIn,
 } from "react-icons/lu";
 import { ThemeToggle } from "@/components/ThemeToggle"; // Ajuste o caminho se necessário
+import Header from "@/components/ui/header";
 
 export default function HomePage() {
   const features = [
@@ -41,25 +42,17 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-background/80 text-foreground flex flex-col transition-colors duration-300">
       {/* --- HEADER --- */}
-      <header className="border-b sticky top-0 bg-background/80 backdrop-blur-md z-50">
-        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <LuPawPrint className="h-7 w-7 text-primary" />
-            <span className="text-2xl font-bold tracking-tight">
-              Pet<span className="text-primary">Tracker</span>
-            </span>
-          </div>
-          <div className="flex items-center gap-2 sm:gap-4">
-            <ThemeToggle />
-            <Button variant="ghost" className="hidden sm:flex" asChild>
-              <Link href="/login">Entrar</Link>
-            </Button>
-            <Button asChild>
-              <Link href="/signup">Cadastrar</Link>
-            </Button>
-          </div>
-        </nav>
-      </header>
+      <Header>
+        <div className="flex items-center gap-2 sm:gap-4">
+          <ThemeToggle />
+          <Button variant="ghost" className="hidden sm:flex" asChild>
+            <Link href="/login">Entrar</Link>
+          </Button>
+          <Button asChild>
+            <Link href="/signup">Cadastrar</Link>
+          </Button>
+        </div>
+      </Header>
 
       <main className="grow">
         {/* --- HERO SECTION --- */}
@@ -78,7 +71,7 @@ export default function HomePage() {
 
             <h1 className="text-5xl md:text-6xl font-extrabold tracking-tighter max-w-3xl leading-tight text-foreground">
               Cuidar de quem você ama nunca foi tão{" "}
-              <span className="text-primary">fácil e organizado</span>.
+              <span className="text-primary">fácil e organizado</span>
             </h1>
 
             <p className="mt-6 text-xl text-muted-foreground max-w-2xl">

@@ -1,15 +1,30 @@
 "use client";
-import { AppSidebar } from "@/components/app-sidebar";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
-import Link from "next/link";
 
+import { LuPawPrint } from "react-icons/lu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { PlusCircle } from "lucide-react";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import SheetNotificationCard from "@/components/ui/sheet-notifcation-card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import Link from "next/link";
+import { LogOut } from "lucide-react";
+import Header from "@/components/ui/header";
 
 export default function DashboardLayout({
   children,
@@ -17,35 +32,104 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen bg-background text-foreground">
-      {/* SIDEBAR */}
-      <TooltipProvider>
-        <SidebarProvider>
-          <AppSidebar />
-          <SidebarInset>
-            <header className="flex h-16 shrink-0 items-center gap-2">
-              <div className="flex items-center gap-2 px-4">
-                <SidebarTrigger className="-ml-1" />
-              </div>
-            </header>
-            <div className="flex flex-1 flex-col gap-4">
-              {/* MAIN CONTENT */}
-              <header className="h-16 border rounded-2xl flex items-center mx-2 justify-between px-8 bg-background/90 backdrop-blur-md sticky top-1 z-10">
-                <h1 className="font-semibold text-lg flex justify-center items-center gap-3">
-                  Bem-vindo de volta!
-                </h1>
-                <Link href={"/addpet"}>
-                  <Button size="sm" className="gap-2">
-                    <PlusCircle className="h-4 w-4" />
-                    Adicionar Pet
-                  </Button>
-                </Link>
-              </header>
-              <div className="p-4">{children}</div>
-            </div>
-          </SidebarInset>
-        </SidebarProvider>
-      </TooltipProvider>
+    <div className="min-h-screen bg-background/80 text-foreground flex flex-col transition-colors duration-300">
+      <Header>
+        <div className="flex items-center gap-2 sm:gap-4">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="rounded-full">
+                <Avatar>
+                  <AvatarImage
+                    src="https://github.com/shadcn.png"
+                    alt="shadcn"
+                  />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-32">
+              <DropdownMenuGroup>
+                <DropdownMenuItem aria-description="Entrar área de pagamentos">
+                  Pagamentos
+                </DropdownMenuItem>
+                <DropdownMenuItem aria-description="Entrar área das configurações">
+                  <Link href={"/settings"}>Configurações</Link>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
+                <DropdownMenuItem variant="destructive">
+                  Sair da conta <LogOut />
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <Sheet aria-description="Notificações mais recentes sobre o pet">
+            <SheetTrigger asChild>
+              <Button variant="outline" className="relative">
+                Notificações
+                {/* Badge */}
+                <span className="absolute -top-2 -right-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground">
+                  3
+                </span>
+              </Button>
+            </SheetTrigger>
+
+            <SheetContent className="flex flex-col">
+              {/* HEADER */}
+              <SheetHeader className="border-b pb-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <SheetTitle>Notificações</SheetTitle>
+
+                    <p className="text-sm text-muted-foreground mt-1">
+                      Atualizações recentes sobre seus pets
+                    </p>
+                  </div>
+                </div>
+              </SheetHeader>
+
+              {/* LISTA */}
+              <ScrollArea className="flex-1  min-h-0">
+                <div className="flex flex-col gap-3">
+                  <div>
+                    <div className="space-y-2 mx-4 mt-2">
+                      <SheetNotificationCard />
+                      <SheetNotificationCard />
+                      <SheetNotificationCard />
+                      <SheetNotificationCard />
+                      <SheetNotificationCard />
+                      <SheetNotificationCard />
+                    </div>
+                  </div>
+
+                  {/* ONTEM */}
+                </div>
+              </ScrollArea>
+
+              {/* FOOTER */}
+              <SheetFooter className="border-t pt-4 flex-row gap-2 sm:justify-between">
+                <Button variant="default" className="flex-1">
+                  Limpar
+                </Button>
+              </SheetFooter>
+            </SheetContent>
+          </Sheet>
+        </div>
+      </Header>
+
+      <main className="grow py-6 px-3">{children}</main>
+
+      {/* --- FOOTER --- */}
+      <footer className="bg-background">
+        <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
+          <div className="flex items-center gap-2">
+            <LuPawPrint className="h-4 w-4" />
+            <span className="font-semibold">PetTracker Inc.</span>
+          </div>
+          <p>&copy; {new Date().getFullYear()} Todos os direitos reservados.</p>
+        </div>
+      </footer>
     </div>
   );
 }

@@ -42,7 +42,7 @@ const chartConfig = {
 
 export function ChartLineDots() {
   return (
-    <Card>
+    <Card className="bg-card text-card-foreground shadow-sm hover:shadow-md transition-all duration-300 border-border/50 group overflow-hidden">
       <CardHeader>
         <CardTitle>Peso do animal</CardTitle>
         <CardDescription>January - June 2024</CardDescription>

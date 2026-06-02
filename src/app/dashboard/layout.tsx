@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetFooter,
   SheetHeader,
@@ -75,12 +74,14 @@ export default function DashboardLayout({
               </Button>
             </SheetTrigger>
 
-            <SheetContent className="flex flex-col">
+            <SheetContent className="flex flex-col ">
               {/* HEADER */}
               <SheetHeader className="border-b pb-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <SheetTitle>Notificações</SheetTitle>
+                    <SheetTitle aria-description="Aba de notificações">
+                      Notificações
+                    </SheetTitle>
 
                     <p className="text-sm text-muted-foreground mt-1">
                       Atualizações recentes sobre seus pets

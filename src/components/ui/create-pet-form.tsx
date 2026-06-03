@@ -14,6 +14,8 @@ import {
   SelectValue,
 } from "./select";
 import { BirthPicker } from "./birth-picker";
+import PetImageUploader from "./petimageuploader";
+import { Button } from "./button";
 
 export function CreatePetForm({
   className,
@@ -60,6 +62,10 @@ export function CreatePetForm({
                 <FieldLabel htmlFor="name">Raça</FieldLabel>
                 <Input id="race" type="text" placeholder="Labrador" required />
               </Field>
+              <Field>
+                <PetImageUploader />
+              </Field>
+              <Button>Criar o pet</Button>
             </FieldGroup>
           </form>
         </CardContent>

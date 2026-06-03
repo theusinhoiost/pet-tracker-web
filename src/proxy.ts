@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export async function middleware(request: NextRequest) {
-  const isLoginPage = request.nextUrl.pathname.startsWith("/admin/login");
-  const isAdminPage = request.nextUrl.pathname.startsWith("/admin");
+export async function proxy(request: NextRequest) {
+  const isDashboardPage = request.nextUrl.pathname.startsWith("/dashboard");
   const isGetRequest = request.method === "GET";
 
-  const shouldBeAuthenticated = isAdminPage && !isLoginPage;
+  const shouldBeAuthenticated = isDashboardPage;
   const shouldRedirect = shouldBeAuthenticated && isGetRequest;
 
   if (!shouldRedirect) {
@@ -16,7 +15,7 @@ export async function middleware(request: NextRequest) {
   const isAuthenticated = !!jwtSession;
 
   if (!isAuthenticated) {
-    const loginUrl = new URL("/login", request.url);
+    const loginUrl = new URL("/login");
     return NextResponse.redirect(loginUrl);
   }
 

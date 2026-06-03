@@ -17,6 +17,9 @@ import {
   EyeOff,
   ChevronRight,
   LucideIcon,
+  LucideTriangleAlert,
+  WholeWordIcon,
+  Globe2Icon,
 } from "lucide-react";
 
 import { Switch } from "@/components/ui/switch";
@@ -27,6 +30,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Header from "@/components/ui/header";
+import { LanguageSwitcher } from "@/components/ui/language-selector";
 
 export default function SettingsPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -130,7 +134,23 @@ export default function SettingsPage() {
                 </div>
               </CardContent>
             </Card>
+            {/* LANGUAGE */}
+            <Card className="rounded-3xl border-border/50 shadow-sm">
+              <CardContent className="space-y-6 p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="text-xl font-semibold">Seleção de idioma</h2>
+                    <p className="text-sm text-muted-foreground">
+                      Escolha o idioma do seu texto
+                    </p>
+                  </div>
+                  <Globe className="h-5 w-5 text-muted-foreground" />
+                </div>
 
+                <Separator />
+                <LanguageSwitcher />
+              </CardContent>
+            </Card>
             {/* SECURITY */}
             <Card className="rounded-3xl border-border/50 shadow-sm">
               <CardContent className="space-y-6 p-6">

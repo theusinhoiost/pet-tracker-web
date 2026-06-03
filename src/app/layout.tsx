@@ -3,7 +3,8 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "sonner";
-
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
 export const metadata: Metadata = {
   title: {
     template: "  PetTracker | %s",
@@ -14,11 +15,13 @@ export const metadata: Metadata = {
   publisher: "Matheus Iost",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const messages = await getMessages();
+  const locale = await getLocale();
   return (
     <html
       lang="en"
@@ -32,7 +35,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <NextIntlClientProvider locale={locale} messages={messages}>
+            {" "}
+            {children}
+          </NextIntlClientProvider>
+
           <Toaster />
         </ThemeProvider>
       </body>

@@ -200,8 +200,6 @@ Backend features include:
 
 ## 📸 Screenshots
 
-Add screenshots of your application here.
-
 ```md
 ![Dashboard](./docs/dashboard.png)
 

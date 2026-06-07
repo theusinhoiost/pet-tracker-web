@@ -201,11 +201,11 @@ Backend features include:
 ## 📸 Screenshots
 
 ```md
-![Dashboard](./docs/dashboard.png)
+![Dashboard](docs/dashboard.png)
 
-![Pet Profile](./docs/pet-profile.png)
+![Pet Profile](docs/pet-profile.png)
 
-![Settings](./docs/settings.png)
+![Settings](docs/settings.png)
 ```
 
 ---

@@ -143,7 +143,7 @@ export const DropzoneContent = ({
           : new Intl.ListFormat("en").format(src.map((file) => file.name))}
       </p>
       <p className="w-full text-wrap text-muted-foreground text-xs">
-        Drag and drop or click to replace
+        Arraste e solte ou clique para substituir
       </p>
     </div>
   );
@@ -172,15 +172,15 @@ export const DropzoneEmptyState = ({
 
   if (accept) {
     caption += "Aceita ";
-    caption += new Intl.ListFormat("en").format(Object.keys(accept));
+    caption += new Intl.ListFormat("pt-BR").format(Object.keys(accept));
   }
 
   if (minSize && maxSize) {
-    caption += ` between ${renderBytes(minSize)} and ${renderBytes(maxSize)}`;
+    caption += ` entre ${renderBytes(minSize)} e ${renderBytes(maxSize)}`;
   } else if (minSize) {
-    caption += ` at least ${renderBytes(minSize)}`;
+    caption += ` pelo menos ${renderBytes(minSize)}`;
   } else if (maxSize) {
-    caption += ` less than ${renderBytes(maxSize)}`;
+    caption += ` menor que ${renderBytes(maxSize)}`;
   }
 
   return (
@@ -192,7 +192,7 @@ export const DropzoneEmptyState = ({
         Upload {maxFiles === 1 ? "a file" : "files"}
       </p>
       <p className="w-full truncate text-wrap text-muted-foreground text-xs">
-        Drag and drop or click to upload
+        Arraste e solte ou clique para substituir
       </p>
       {caption && (
         <p className="text-wrap text-muted-foreground text-xs">{caption}.</p>

@@ -10,9 +10,8 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { FcGoogle } from "react-icons/fc";
-import { useActionState, useEffect } from "react";
+import { useActionState } from "react";
 import { createUserAction } from "@/actions/create-user-action";
-import { toast } from "sonner";
 
 export function SignupForm() {
   const [state, action, isPending] = useActionState(createUserAction, {
@@ -24,12 +23,6 @@ export function SignupForm() {
     errors: [],
     success: false,
   });
-  useEffect(() => {
-    toast.dismiss();
-    if (state.errors.length > 0) {
-      state.errors.forEach((error) => toast.error(error));
-    }
-  }, [state]);
   return (
     <form action={action} className="flex flex-col gap-6">
       <FieldGroup>

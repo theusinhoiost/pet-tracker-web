@@ -23,9 +23,9 @@ export default function PetImageUploader() {
   };
   return (
     <Dropzone
-      maxSize={1024 * 1024 * 3}
-      minSize={1024}
-      accept={{ "image/*": [".png", ".jpg", ".jpeg"] }}
+      //maxSize={1024 * 1024 * 3} // 3MB
+      // minSize={1024} // 1MB
+      accept={{ "image/*": [".png", ".jpg", ".jpeg", ".webp"] }}
       onDrop={handleDrop}
       onError={console.error}
       src={files}

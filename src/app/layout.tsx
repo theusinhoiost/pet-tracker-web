@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
-import { Toaster } from "sonner";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 export const metadata: Metadata = {
@@ -39,8 +38,6 @@ export default async function RootLayout({
             {" "}
             {children}
           </NextIntlClientProvider>
-
-          <Toaster />
         </ThemeProvider>
       </body>
     </html>

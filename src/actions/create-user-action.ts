@@ -1,11 +1,13 @@
 "use server";
 
+import { createUser } from "@/services/api/users";
 import {
   CreateUserSchema,
   PublicUserDto,
   PublicUserSchema,
 } from "@/types/zod/create-account";
 import { getZodErrorMessages } from "@/utils/get-zod-error-messages";
+import { redirect } from "next/navigation";
 
 type CreateUserActionState = {
   user: PublicUserDto;
@@ -35,9 +37,9 @@ export async function createUserAction(
       success: false,
     };
   }
-
+  const user = await createUser(parsedFormData.data);
   return {
-    user: state.user,
+    user,
     errors: [],
     success: true,
   };

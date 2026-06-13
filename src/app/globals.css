@@ -59,12 +59,12 @@
   --secondary-foreground: #2c1f14;
   --muted: #ede4d7;
   --muted-foreground: #7a6450;
-  --accent: #6b8f6e;
+  --accent: #b85c38;
   --accent-foreground: #fdf9f4;
   --destructive: #c0392b;
   --destructive-foreground: #ffffff;
   --border: rgba(44, 31, 20, 0.12);
-  --input: transparent;
+  --input: #ede4d7;
   --input-background: #ede4d7;
   --switch-background: #c4b5a0;
   --font-weight-medium: 500;

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { LuPawPrint } from "react-icons/lu";
 import { CreatePetForm } from "@/components/ui/create-pet-form";
+import Footer from "@/components/ui/footer";
 
 export default function PetAddPage() {
   return (
@@ -40,10 +41,7 @@ export default function PetAddPage() {
           </div>
         </div>
 
-        {/* FOOTER */}
-        <div className="text-center text-xs text-muted-foreground">
-          © {new Date().getFullYear()} PetTracker
-        </div>
+        <Footer />
       </div>
     </div>
   );

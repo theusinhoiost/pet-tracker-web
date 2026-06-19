@@ -1,4 +1,4 @@
-import { api } from "./api";
+import { api } from "../api/api";
 
 export async function refreshToken() {
   const response = await api.post("/auth/refresh");

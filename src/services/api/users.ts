@@ -3,16 +3,10 @@ import {
   UpdatePasswordDto,
   UpdateUserDto,
 } from "@/types/zod/create-account";
-import { cookies } from "next/headers";
-
-export async function getToken() {
-  const cookieStore = await cookies();
-
-  return cookieStore.get("access_token")?.value;
-}
+import { serverFetch } from "../auth/server";
 
 export async function createUser(data: CreateUserDto) {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
+  const response = await serverFetch(`/user`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -23,14 +17,8 @@ export async function createUser(data: CreateUserDto) {
   return response.json();
 }
 export async function updateUserPassword(data: UpdatePasswordDto) {
-  const token = await getToken();
-
-  const response = await fetch(`${process.env.API_URL}/users`, {
+  const response = await serverFetch("/user/me/password", {
     method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify(data),
   });
 
@@ -38,14 +26,8 @@ export async function updateUserPassword(data: UpdatePasswordDto) {
 }
 
 export async function updateUser(data: UpdateUserDto) {
-  const token = await getToken();
-
-  const response = await fetch(`${process.env.API_URL}/users`, {
+  const response = await serverFetch("/user/me", {
     method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify(data),
   });
 

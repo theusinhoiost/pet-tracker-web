@@ -1,6 +1,6 @@
 "use client";
 
-import { api } from "@/lib/api";
+import { api } from "@/services/api/api";
 import { createContext, useEffect, useState, ReactNode } from "react";
 
 type User = {

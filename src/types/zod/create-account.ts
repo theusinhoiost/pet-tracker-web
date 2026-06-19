@@ -3,7 +3,7 @@ import { z } from "zod";
 export const UserBaseSchema = z.object({
   name: z
     .string()
-    .min(3, "Nome deve ter pelo menos 3 caracteres")
+    .min(3, "Nome deve ter pelo menos 3 letras")
     .max(100, "Nome muito longo")
     .trim(),
 
@@ -13,7 +13,7 @@ export const UserBaseSchema = z.object({
     .max(15, "Telefone inválido")
     .regex(
       /^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$/,
-      "Formato inválido. Ex: (11) 91234-5678",
+      "Formato de telefone inválido. Ex: (11) 91234-5678",
     )
     .trim(),
 
@@ -21,8 +21,8 @@ export const UserBaseSchema = z.object({
 
   password: z
     .string()
-    .min(6, "Senha deve ter no mínimo 6 caracteres")
-    .max(32, "Senha deve ter no máximo 32 caracteres")
+    .min(6, "Senha deve ter no mínimo 6 letras")
+    .max(32, "Senha deve ter no máximo 32 letras")
     .regex(/[A-Z]/, "Senha precisa de uma letra maiúscula")
     .regex(/[0-9]/, "Senha precisa de um número")
     .regex(/[^A-Za-z0-9]/, "Senha precisa de um símbolo especial"),
@@ -55,16 +55,16 @@ export const UpdatePasswordSchema = z
     newPassword: z
       .string()
       .trim()
-      .min(6, "Nova senha precisa ter um mínimo de 6 caracteres")
-      .max(32, "Senha deve ter no máximo 32 caracteres")
+      .min(6, "Nova senha precisa ter um mínimo de 6 letras")
+      .max(32, "Senha deve ter no máximo 32 letras")
       .regex(/[A-Z]/, "Senha precisa de uma letra maiúscula")
       .regex(/[0-9]/, "Senha precisa de um número")
       .regex(/[^A-Za-z0-9]/, "Senha precisa de um símbolo especial"),
     confirmPassword: z
       .string()
       .trim()
-      .min(6, "Nova senha precisa ter um mínimo de 6 caracteres")
-      .max(32, "Senha deve ter no máximo 32 caracteres")
+      .min(6, "Nova senha precisa ter um mínimo de 6 letras")
+      .max(32, "Senha deve ter no máximo 32 letras")
       .regex(/[A-Z]/, "Senha precisa de uma letra maiúscula")
       .regex(/[0-9]/, "Senha precisa de um número")
       .regex(/[^A-Za-z0-9]/, "Senha precisa de um símbolo especial"),

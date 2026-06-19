@@ -10,19 +10,25 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { FcGoogle } from "react-icons/fc";
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { createUserAction } from "@/actions/create-user-action";
-
+import { Card, CardContent } from "./ui/card";
+import { EyeOff, Eye } from "lucide-react";
+const initialState = {
+  user: {
+    name: "",
+    email: "",
+    phone: "",
+  },
+  errors: [],
+  success: false,
+};
 export function SignupForm() {
-  const [state, action, isPending] = useActionState(createUserAction, {
-    user: {
-      name: "",
-      email: "",
-      phone: "",
-    },
-    errors: [],
-    success: false,
-  });
+  const [state, action, isPending] = useActionState(
+    createUserAction,
+    initialState,
+  );
+  const [showPassword, setShowPassword] = useState(false);
   return (
     <form action={action} className="flex flex-col gap-6">
       <FieldGroup>
@@ -32,13 +38,7 @@ export function SignupForm() {
             Preencha os campos abaixo para criar sua conta
           </p>
         </div>
-        {state.errors.length > 0 && (
-          <div className="text-red-500 text-sm">
-            {state.errors.map((err, i) => (
-              <p key={i}>{err}</p>
-            ))}
-          </div>
-        )}
+
         <Field>
           <FieldLabel>Nome completo</FieldLabel>
           <Input
@@ -47,7 +47,6 @@ export function SignupForm() {
             placeholder="Seu nome"
             disabled={isPending}
             defaultValue={state.user?.name}
-            required
           />
         </Field>
 
@@ -58,7 +57,6 @@ export function SignupForm() {
             placeholder="(11) 91234-5678"
             disabled={isPending}
             defaultValue={state.user?.phone}
-            required
           />
         </Field>
 
@@ -69,31 +67,53 @@ export function SignupForm() {
             type="email"
             disabled={isPending}
             defaultValue={state.user?.email}
-            required
           />
         </Field>
 
         <Field>
           <FieldLabel>Senha</FieldLabel>
-          <Input
-            name="password"
-            type="password"
-            disabled={isPending}
-            required
-          />
+          <div className="relative">
+            <Input
+              type={showPassword ? "text" : "password"}
+              className="pr-12"
+              disabled={isPending}
+            />
+
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+            >
+              {showPassword ? (
+                <EyeOff className="h-4 w-4" />
+              ) : (
+                <Eye className="h-4 w-4" />
+              )}
+            </button>
+          </div>
         </Field>
 
         <Field>
           <FieldLabel>Confirmar Senha</FieldLabel>
           <Input
             name="confirmPassword"
-            type="password"
+            type={showPassword ? "text" : "password"}
             disabled={isPending}
-            required
           />
         </Field>
 
         <Field>
+          {state.errors.length > 0 && (
+            <Card>
+              <CardContent>
+                {state.errors.map((err, i) => (
+                  <p key={i} className="pb-2 text-destructive">
+                    {err}.
+                  </p>
+                ))}
+              </CardContent>
+            </Card>
+          )}
           <Button type="submit" disabled={isPending}>
             {isPending ? "Criando..." : "Criar Conta"}
           </Button>

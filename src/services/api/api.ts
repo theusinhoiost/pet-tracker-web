@@ -1,5 +1,5 @@
 import axios from "axios";
-import { refreshToken } from "./refresh-token";
+import { refreshToken } from "../auth/refresh-token";
 
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,

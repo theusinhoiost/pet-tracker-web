@@ -1,6 +1,5 @@
 "use client";
 
-import { LuPawPrint } from "react-icons/lu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,11 +18,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import SheetNotificationCard from "@/components/ui/sheet-notifcation-card";
+import SheetNotificationCard from "@/components/ui/sheet-notification-card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Link from "next/link";
 import { LogOut } from "lucide-react";
 import Header from "@/components/ui/header";
+import Footer from "@/components/ui/footer";
 
 export default function DashboardLayout({
   children,
@@ -74,7 +74,10 @@ export default function DashboardLayout({
               </Button>
             </SheetTrigger>
 
-            <SheetContent className="flex flex-col ">
+            <SheetContent
+              className="flex flex-col"
+              aria-describedby={undefined}
+            >
               {/* HEADER */}
               <SheetHeader className="border-b pb-4">
                 <div className="flex items-center justify-between">
@@ -103,8 +106,6 @@ export default function DashboardLayout({
                       <SheetNotificationCard />
                     </div>
                   </div>
-
-                  {/* ONTEM */}
                 </div>
               </ScrollArea>
 
@@ -121,16 +122,7 @@ export default function DashboardLayout({
 
       <main className="grow py-6 px-3">{children}</main>
 
-      {/* --- FOOTER --- */}
-      <footer className="bg-background">
-        <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-          <div className="flex items-center gap-2">
-            <LuPawPrint className="h-4 w-4" />
-            <span className="font-semibold">PetTracker Inc.</span>
-          </div>
-          <p>&copy; {new Date().getFullYear()} Todos os direitos reservados.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

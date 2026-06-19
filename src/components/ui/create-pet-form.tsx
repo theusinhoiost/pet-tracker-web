@@ -50,7 +50,7 @@ export function CreatePetForm({
                 <FieldLabel htmlFor="name">Nome</FieldLabel>
                 <Input
                   id="name"
-                  name="name" // IMPORTANTE
+                  name="name"
                   type="text"
                   placeholder="Bob Junior"
                   defaultValue={state.pet?.name} // Mantém o valor caso falhe a validação
@@ -104,30 +104,18 @@ export function CreatePetForm({
                 <PetImageUploader />
               </Field>
 
-              {state.errors && state.errors.length > 0 && (
-                <div className="p-4">
-                  <ul className="list-disc pl-5 text-sm text-red-500 space-y-1">
-                    {state.errors.map((error, index) => (
-                      <li key={index}>{error}</li>
+              {state.errors.length > 0 && (
+                <Card>
+                  <CardContent>
+                    {state.errors.map((err, i) => (
+                      <p key={i} className="pb-2 text-destructive">
+                        {err}.
+                      </p>
                     ))}
-                  </ul>
-                </div>
+                  </CardContent>
+                </Card>
               )}
-              {/* TEST */}
-              {/* TEST */}
-              {/* TEST */}
-              {/* MENSAGEM DE SUCESSO */}
 
-              {state.success && (
-                <p className="text-sm font-medium text-green-600 dark:text-green-400">
-                  🐾 Pet cadastrado com sucesso!
-                </p>
-              )}
-              {/* TEST */}
-              {/* TEST */}
-              {/* TEST */}
-
-              {/* BOTÃO COM ESTADO DE CARREGAMENTO */}
               <Button type="submit" disabled={isPending}>
                 {isPending ? "Criando..." : "Criar o pet"}
               </Button>

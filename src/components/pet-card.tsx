@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -5,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { LuSyringe, LuPawPrint, LuEye } from "react-icons/lu";
 import clsx from "clsx";
-import { PencilIcon } from "lucide-react";
+import { ActionsMenu } from "./ui/action-menu";
 
 interface PetCardProps {
   id: string;
@@ -24,7 +25,6 @@ export function PetCard({
   imageUrl,
   showButton = true,
 }: PetCardProps) {
-  // Lógica simples para pegar as iniciais do nome caso não haja imagem
   const initials = name.substring(0, 2).toUpperCase();
 
   return (
@@ -49,13 +49,11 @@ export function PetCard({
           </p>
         </div>
 
-        <Button
-          variant="ghost"
-          size="icon"
-          className="rounded-full h-8 w-8 text-muted-foreground hover:text-foreground"
-        >
-          <PencilIcon className="h-4 w-4" />
-        </Button>
+        <ActionsMenu
+          onEdit={() => console.log("Editar")}
+          onDelete={() => console.log("Excluindo...")}
+          itemName="animal"
+        />
       </CardHeader>
 
       <CardContent className="p-5">

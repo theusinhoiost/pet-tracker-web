@@ -3,6 +3,7 @@
 import { SignupForm } from "@/components/signup-form";
 import { LuPawPrint } from "react-icons/lu";
 import Image from "next/image";
+import Footer from "@/components/ui/footer";
 
 export default function SignupPage() {
   return (
@@ -31,6 +32,7 @@ export default function SignupPage() {
           height={1000}
         />
       </div>
+      <Footer />
     </div>
   );
 }

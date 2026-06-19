@@ -7,8 +7,6 @@ import {
   PublicUserSchema,
 } from "@/types/zod/create-account";
 import { getZodErrorMessages } from "@/utils/get-zod-error-messages";
-import { redirect } from "next/navigation";
-
 type CreateUserActionState = {
   user: PublicUserDto;
   errors: string[];

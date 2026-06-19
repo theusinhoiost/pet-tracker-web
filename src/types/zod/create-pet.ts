@@ -4,7 +4,7 @@ import { petSpecies } from "../pet-species";
 export const PetBaseSchema = z.object({
   name: z
     .string()
-    .min(3, "Nome deve ter pelo menos 3 caracteres")
+    .min(3, "Nome deve ter pelo menos 3 letras")
     .max(100, "Nome muito longo")
     .trim(),
   birthDate: z.coerce.date().refine((date) => date <= new Date(), {
@@ -12,7 +12,7 @@ export const PetBaseSchema = z.object({
   }),
   race: z
     .string()
-    .min(3, "Raça deve ter pelo menos 3 caracteres")
+    .min(3, "Raça deve ter pelo menos 3 letras")
     .max(100, "Nome muito longo")
     .trim(),
   species: z.enum(petSpecies),

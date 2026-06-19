@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,20 +16,26 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { FcGoogle } from "react-icons/fc";
-
-export function LoginForm({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+import { useActionState, useState } from "react";
+import { loginAction } from "@/actions/auth/auth-action";
+import { Eye, EyeOff } from "lucide-react";
+const initialState = {
+  user: null,
+  errors: [],
+  success: false,
+};
+export function LoginForm() {
+  const [state, action, isPending] = useActionState(loginAction, initialState);
+  const [showPassword, setShowPassword] = useState(false);
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div className={"flex flex-col gap-6"}>
       <Card>
         <CardHeader className="text-center">
           <CardTitle className="text-xl">Bem-vindo de volta</CardTitle>
           <CardDescription>Entrar com conta Google</CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form action={action}>
             <FieldGroup>
               <Field>
                 <Button variant="outline" type="button">
@@ -40,13 +46,17 @@ export function LoginForm({
               <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
                 Ou entrar com
               </FieldSeparator>
+
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
                 <Input
+                  name="email"
                   id="email"
                   type="email"
                   placeholder="m@example.com"
-                  required
+                  disabled={isPending}
+                  defaultValue={state.user?.email}
+                  value={state.user?.email}
                 />
               </Field>
               <Field>
@@ -59,10 +69,41 @@ export function LoginForm({
                     Esqueceu a sua senha?
                   </a>
                 </div>
-                <Input id="password" type="password" required />
+                <div className="relative">
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    className="pr-12"
+                    disabled={isPending}
+                  />
+
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </button>
+                </div>
               </Field>
               <Field>
-                <Button type="submit">Login</Button>
+                {state.errors.length > 0 && (
+                  <Card>
+                    <CardContent>
+                      {state.errors.map((err, i) => (
+                        <p key={i} className="pb-2 text-destructive">
+                          {err}.
+                        </p>
+                      ))}
+                    </CardContent>
+                  </Card>
+                )}
+                <Button type="submit" disabled={isPending}>
+                  {isPending ? "Logando..." : "Login"}
+                </Button>
                 <FieldDescription className="text-center">
                   Não tem conta ? <a href="signup">Crie-me</a>
                 </FieldDescription>

@@ -74,6 +74,7 @@ export function LoginForm() {
                     type={showPassword ? "text" : "password"}
                     className="pr-12"
                     disabled={isPending}
+                    name="password"
                   />
 
                   <button

@@ -74,6 +74,7 @@ export function SignupForm() {
           <FieldLabel>Senha</FieldLabel>
           <div className="relative">
             <Input
+             name="password"
               type={showPassword ? "text" : "password"}
               className="pr-12"
               disabled={isPending}

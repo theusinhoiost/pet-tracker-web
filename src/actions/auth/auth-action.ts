@@ -39,7 +39,8 @@ export async function loginAction(
   }
 
   let data: LoginResponseDto;
-
+  console.log("API_URL:", API_URL);
+  console.log("LOGIN PAYLOAD:", parsedFormData.data);
   try {
     const response = await fetch(`${API_URL}/auth/login`, {
       method: "POST",
@@ -49,7 +50,6 @@ export async function loginAction(
       body: JSON.stringify(parsedFormData.data),
       credentials: "include",
     });
-
     if (!response.ok) {
       const error = await response
         .json()

@@ -12,7 +12,7 @@ import { ActionsMenu } from "./ui/action-menu";
 import { PetCardProps } from "@/types/pet-card";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { deletePet } from "@/services/api/pet";
+import { deletePetAction } from "@/actions/pets/delete-pet-action";
 
 export function PetCard({
   id,
@@ -21,25 +21,26 @@ export function PetCard({
   nextVaccineDate,
   imageUrl,
   showButton = true,
-  onDeleteSuccess, // callback opcional
+  onDeleteSuccess,
 }: PetCardProps & { onDeleteSuccess?: () => void }) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
   const handleDelete = () => {
     startTransition(async () => {
-      try {
-        await deletePet(id);
-        toast.success(`${name} foi excluído com sucesso! 🗑️`);
+      const result = await deletePetAction(id);
 
-        if (onDeleteSuccess) {
-          onDeleteSuccess();
-        } else {
-          router.refresh(); // Atualiza Server Component
-        }
-      } catch (error) {
-        toast.error("Não foi possível excluir o pet. Tente novamente.");
-        console.error(error);
+      if (!result.success) {
+        toast.error(result.errors[0]);
+        return;
+      }
+
+      toast.success(`${name} foi excluído com sucesso! 🗑️`);
+
+      if (onDeleteSuccess) {
+        onDeleteSuccess();
+      } else {
+        router.refresh();
       }
     });
   };

@@ -1,15 +1,21 @@
 "use server";
 
-import { serverFetch } from "@/services/auth/server";
+import { deletePet } from "@/services/api/pet";
 
-export async function deletePet(id: string) {
-  const response = await serverFetch(`/pet/${id}`, {
-    method: "DELETE",
-  });
+export async function deletePetAction(id: string) {
+  try {
+    await deletePet(id);
 
-  if (!response.ok) {
-    throw new Error("Falha ao excluir pet");
+    return {
+      success: true,
+      errors: [],
+    };
+  } catch (error) {
+    console.error("Erro ao excluir pet:", error);
+
+    return {
+      success: false,
+      errors: ["Não foi possível excluir o pet."],
+    };
   }
-
-  return response.json();
 }

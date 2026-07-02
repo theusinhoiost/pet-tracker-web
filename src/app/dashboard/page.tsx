@@ -7,7 +7,7 @@ import { PlusCircle } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
 import { LuBell, LuActivity, LuHeart } from "react-icons/lu";
-
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Dashboard - Seus Pets",
 };

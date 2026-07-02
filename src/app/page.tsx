@@ -10,7 +10,6 @@ import {
   LuBellRing,
   LuLogIn,
 } from "react-icons/lu";
-import { ThemeToggle } from "@/components/ThemeToggle"; // Ajuste o caminho se necessário
 import Header from "@/components/ui/header";
 import Footer from "@/components/ui/footer";
 

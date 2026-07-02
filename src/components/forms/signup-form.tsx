@@ -12,8 +12,8 @@ import { Input } from "@/components/ui/input";
 import { FcGoogle } from "react-icons/fc";
 import { useActionState, useState } from "react";
 import { createUserAction } from "@/actions/create-user-action";
-import { Card, CardContent } from "./ui/card";
 import { EyeOff, Eye } from "lucide-react";
+import { Card, CardContent } from "../ui/card";
 const initialState = {
   user: {
     name: "",
@@ -74,7 +74,7 @@ export function SignupForm() {
           <FieldLabel>Senha</FieldLabel>
           <div className="relative">
             <Input
-             name="password"
+              name="password"
               type={showPassword ? "text" : "password"}
               className="pr-12"
               disabled={isPending}

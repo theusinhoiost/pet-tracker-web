@@ -1,12 +1,13 @@
 "use server";
 
-import { createUser } from "@/services/api/users";
+import { createUser } from "@/services/api/user";
 import {
   CreateUserSchema,
   PublicUserDto,
   PublicUserSchema,
 } from "@/types/zod/create-account";
 import { getZodErrorMessages } from "@/utils/get-zod-error-messages";
+
 type CreateUserActionState = {
   user: PublicUserDto;
   errors: string[];

@@ -20,7 +20,7 @@ import {
 
 interface ActionsMenuProps {
   onEdit: () => void;
-  onDelete: () => void;
+  onDelete?: () => void;
   itemName?: string;
 }
 
@@ -49,50 +49,52 @@ export function ActionsMenu({
             <Pencil className="mr-2 h-4 w-4" />
             Editar
           </DropdownMenuItem>
-
-          <DropdownMenuItem
-            onClick={() => setShowDeleteDialog(true)}
-            className="cursor-pointer text-destructive focus:text-destructive"
-            variant="destructive"
-          >
-            <Trash2Icon className="mr-2 h-4 w-4 " />
-            Excluir
-          </DropdownMenuItem>
+          {onDelete && (
+            <DropdownMenuItem
+              onClick={() => setShowDeleteDialog(true)}
+              className="cursor-pointer text-destructive focus:text-destructive"
+              variant="destructive"
+            >
+              <Trash2Icon className="mr-2 h-4 w-4 " />
+              Excluir
+            </DropdownMenuItem>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
+      {onDelete && (
+        <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Confirmar exclusão</DialogTitle>
+              <DialogDescription>
+                Apaga o {itemName} selecionado.
+              </DialogDescription>
+              <DialogDescription>
+                Tem certeza que deseja excluir este {itemName}? Esta ação não
+                pode ser desfeita.
+              </DialogDescription>
+            </DialogHeader>
 
-      <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Confirmar exclusão</DialogTitle>
-            <DialogDescription>
-              Apaga o {itemName} selecionado.
-            </DialogDescription>
-            <DialogDescription>
-              Tem certeza que deseja excluir este {itemName}? Esta ação não pode
-              ser desfeita.
-            </DialogDescription>
-          </DialogHeader>
-
-          <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setShowDeleteDialog(false)}
-            >
-              Cancelar
-            </Button>
-            <Button
-              variant="destructive"
-              onClick={() => {
-                onDelete();
-                setShowDeleteDialog(false);
-              }}
-            >
-              Sim, excluir
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+            <DialogFooter>
+              <Button
+                variant="outline"
+                onClick={() => setShowDeleteDialog(false)}
+              >
+                Cancelar
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={() => {
+                  onDelete();
+                  setShowDeleteDialog(false);
+                }}
+              >
+                Sim, excluir
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      )}
     </>
   );
 }

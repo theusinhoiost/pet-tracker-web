@@ -45,7 +45,6 @@ export default function HomePage() {
       {/* --- HEADER --- */}
       <Header>
         <div className="flex items-center gap-2 sm:gap-4">
-          <ThemeToggle />
           <Button variant="ghost" className="hidden sm:flex" asChild>
             <Link href="/login">Entrar</Link>
           </Button>

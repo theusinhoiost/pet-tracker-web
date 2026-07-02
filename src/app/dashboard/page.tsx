@@ -1,62 +1,28 @@
 import { PetCard } from "@/components/pet-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getAllPets } from "@/services/api/pet";
+import { PetCardProps } from "@/types/pet-card";
 import { PlusCircle } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
 import { LuBell, LuActivity, LuHeart } from "react-icons/lu";
 
 export const metadata: Metadata = {
-  title: "Seus Pets",
+  title: "Dashboard - Seus Pets",
 };
 
-// Mock de dados (Simulando o que viria do NestJS)
-const MY_PETS = [
-  {
-    id: "1",
-    name: "Rex",
-    breed: "Golden Retriever",
-    nextVaccine: "12/04/2026",
-    status: "Em dia",
-  },
-  {
-    id: "2",
-    name: "Luna",
-    breed: "Gato Persa",
-    nextVaccine: "20/05/2026",
-    status: "Alerta",
-  },
-  {
-    id: "3",
-    name: "Luna",
-    breed: "Gato Persa",
-    nextVaccine: "20/05/2026",
-    status: "Alerta",
-  },
-  {
-    id: "24",
-    name: "Luna",
-    breed: "Gato Persa",
-    nextVaccine: "20/05/2026",
-    status: "Alerta",
-  },
-  {
-    id: "234",
-    name: "Luna",
-    breed: "Gato Persa",
-    nextVaccine: "20/05/2026",
-    status: "Alerta",
-  },
-  {
-    id: "255",
-    name: "Luna",
-    breed: "Gato Persa",
-    nextVaccine: "20/05/2026",
-    status: "Alerta",
-  },
-];
+export default async function DashboardPage() {
+  let pets: PetCardProps[] = [];
+  let error = false;
 
-export default function DashboardPage() {
+  try {
+    pets = await getAllPets();
+  } catch (err) {
+    console.error("Erro ao carregar pets:", err);
+    error = true;
+  }
+
   return (
     <div className="space-y-8">
       {/* SEÇÃO DE SUMÁRIO */}
@@ -67,7 +33,7 @@ export default function DashboardPage() {
             <LuHeart className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">2</div>
+            <div className="text-2xl font-bold">{pets.length}</div>
             <p className="text-xs text-muted-foreground mt-1">
               Registados na tua conta
             </p>
@@ -111,7 +77,7 @@ export default function DashboardPage() {
           <h2 className="text-2xl font-bold tracking-tight text-foreground">
             Os Meus Animais
           </h2>
-          <Link href={"/addpet"}>
+          <Link href="/addpet">
             <Button size="sm" className="gap-2">
               <PlusCircle className="h-4 w-4" />
               Adicionar Pet
@@ -119,17 +85,45 @@ export default function DashboardPage() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {MY_PETS.map((pet) => (
-            <PetCard
-              key={pet.id}
-              name={pet.name}
-              breed={pet.breed}
-              nextVaccineDate={pet.nextVaccine}
-              id={pet.id}
-            />
-          ))}
-        </div>
+        {error ? (
+          <Card className="p-8 text-center">
+            <p className="text-destructive">Erro ao carregar seus pets.</p>
+            <p className="text-sm text-muted-foreground mt-2">
+              Tente recarregar a página.
+            </p>
+          </Card>
+        ) : pets.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {pets.map((pet) => (
+              <PetCard
+                key={pet.id}
+                id={pet.id}
+                name={pet.name}
+                race={pet.race || "Sem raça definida"}
+                nextVaccineDate={pet.nextVaccineDate}
+                imageUrl={pet.imageUrl}
+              />
+            ))}
+          </div>
+        ) : (
+          <Card className="p-12 text-center">
+            <div className="mx-auto w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4">
+              🐾
+            </div>
+            <h3 className="text-xl font-semibold">
+              Ainda não tem pets cadastrados
+            </h3>
+            <p className="text-muted-foreground mt-2 mb-6">
+              Adicione seu primeiro animal de estimação
+            </p>
+            <Link href="/addpet">
+              <Button>
+                <PlusCircle className="mr-2 h-4 w-4" />
+                Cadastrar Primeiro Pet
+              </Button>
+            </Link>
+          </Card>
+        )}
       </div>
     </div>
   );

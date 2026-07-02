@@ -7,20 +7,12 @@ import { Button } from "@/components/ui/button";
 import { LuSyringe, LuPawPrint, LuEye } from "react-icons/lu";
 import clsx from "clsx";
 import { ActionsMenu } from "./ui/action-menu";
-
-interface PetCardProps {
-  id: string;
-  name: string;
-  breed: string;
-  nextVaccineDate: string;
-  showButton?: boolean; // Opcional
-  imageUrl?: string; // Opcional
-}
+import { PetCardProps } from "@/types/pet-card";
 
 export function PetCard({
   id,
   name,
-  breed,
+  race,
   nextVaccineDate,
   imageUrl,
   showButton = true,
@@ -45,7 +37,7 @@ export function PetCard({
           </CardTitle>
           <p className="text-sm text-muted-foreground truncate flex items-center gap-1.5">
             <LuPawPrint className="h-3.5 w-3.5" />
-            {breed}
+            {race}
           </p>
         </div>
 
@@ -70,7 +62,9 @@ export function PetCard({
                 "hover:text-foreground hover:transform hover:bg-primary/30",
               )}
             >
-              {nextVaccineDate}
+              {nextVaccineDate && nextVaccineDate.trim() !== ""
+                ? nextVaccineDate
+                : "—"}
             </Badge>
           </div>
           {showButton && (

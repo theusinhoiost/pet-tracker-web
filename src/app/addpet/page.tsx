@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { LuPawPrint } from "react-icons/lu";
-import { CreatePetForm } from "@/components/ui/create-pet-form";
+import { CreatePetForm } from "@/components/forms/create-pet-form";
 import Footer from "@/components/ui/footer";
 
 export default function PetAddPage() {

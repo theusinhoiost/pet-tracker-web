@@ -12,13 +12,16 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "./select";
-import { BirthPicker } from "./birth-picker";
-import PetImageUploader from "./petimageuploader";
-import { Button } from "./button";
-import { useActionState } from "react";
-import { createPetAction } from "@/actions/create-pet-action";
+} from "../ui/select";
+import { BirthPicker } from "../ui/birth-picker";
+import { Button } from "../ui/button";
+import { useActionState, useEffect } from "react";
+import { createPetAction } from "@/actions/pets/create-pet-action";
 import { PublicPetDto } from "@/types/zod/create-pet";
+import { PetImageUploader } from "../ui/petImageUploader";
+import { toast } from "sonner";
+import { useRouter } from "next/router";
+import { redirect } from "next/navigation";
 
 const initialState = {
   pet: {
@@ -26,11 +29,12 @@ const initialState = {
     birthDate: "",
     race: "",
     species: "dog" as const,
-    image: "Default",
+    image: null,
   } as PublicPetDto,
   errors: [],
   success: false,
 };
+
 export function CreatePetForm({
   className,
   ...props
@@ -39,6 +43,15 @@ export function CreatePetForm({
     createPetAction,
     initialState,
   );
+  useEffect(() => {
+    if (state.success) {
+      toast.dismiss();
+      toast.success("Pet adicionado com sucesso", {
+        position: "bottom-center",
+      });
+      redirect("/dashboard");
+    }
+  }, [state.success]);
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -53,14 +66,12 @@ export function CreatePetForm({
                   name="name"
                   type="text"
                   placeholder="Bob Junior"
-                  defaultValue={state.pet?.name} // Mantém o valor caso falhe a validação
+                  defaultValue={state.pet?.name}
                 />
               </Field>
-
               {/* CAMPO: ESPÉCIE */}
               <Field>
                 <FieldLabel htmlFor="species">Espécie</FieldLabel>
-                {/* Garantido o atributo name no Select para o FormData capturar o valor */}
                 <Select
                   name="species"
                   defaultValue={state.pet?.species || "dog"}
@@ -76,7 +87,7 @@ export function CreatePetForm({
                       <SelectItem value="bird">Pássaro</SelectItem>
                       <SelectItem value="fish">Peixe</SelectItem>
                       <SelectItem value="rabbit">Coelho</SelectItem>
-                      <SelectItem value="others">Outro</SelectItem>
+                      <SelectItem value="other">Outro</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -84,7 +95,7 @@ export function CreatePetForm({
 
               {/* CAMPO: DATA DE NASCIMENTO */}
               <Field>
-                <BirthPicker defaultValue={state.pet.birthDate} />
+                <BirthPicker defaultValue={state.pet?.birthDate ?? ""} />
               </Field>
 
               {/* CAMPO: RAÇA */}

@@ -1,9 +1,9 @@
 "use client";
 
-import { SignupForm } from "@/components/signup-form";
 import { LuPawPrint } from "react-icons/lu";
 import Image from "next/image";
 import Footer from "@/components/ui/footer";
+import { SignupForm } from "@/components/forms/signup-form";
 
 export default function SignupPage() {
   return (
@@ -30,6 +30,7 @@ export default function SignupPage() {
           className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.5] rounded-l-full py-8"
           width={1000}
           height={1000}
+          loading="eager"
         />
       </div>
       <Footer />

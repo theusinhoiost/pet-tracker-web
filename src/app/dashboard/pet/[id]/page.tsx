@@ -9,9 +9,10 @@ export default function PetInfos() {
       <PetCard
         id={"43434"}
         name={"Jubao"}
-        breed={"swdewretret"}
+        race={"swdewretret"}
         nextVaccineDate={"22/03/2025"}
         showButton={false}
+        imageUrl={""}
       />
     </div>
   );

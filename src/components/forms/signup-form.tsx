@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { FcGoogle } from "react-icons/fc";
 import { useActionState, useState } from "react";
-import { createUserAction } from "@/actions/create-user-action";
+import { createUserAction } from "@/actions/user/create-user-action";
 import { EyeOff, Eye } from "lucide-react";
 import { Card, CardContent } from "../ui/card";
 const initialState = {

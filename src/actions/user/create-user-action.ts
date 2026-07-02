@@ -5,7 +5,7 @@ import {
   CreateUserSchema,
   PublicUserDto,
   PublicUserSchema,
-} from "@/types/zod/create-account";
+} from "@/types/zod/accounts";
 import { getZodErrorMessages } from "@/utils/get-zod-error-messages";
 
 type CreateUserActionState = {

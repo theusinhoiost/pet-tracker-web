@@ -1,5 +1,5 @@
 // src/lib/api/pet.ts
-import { CreatePetDto } from "@/types/zod/create-pet";
+import { CreatePetDto } from "@/types/zod/pets";
 import { serverFetch } from "../auth/server";
 
 export async function createPet(data: CreatePetDto | FormData) {

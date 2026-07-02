@@ -2,7 +2,7 @@ import {
   CreateUserDto,
   UpdatePasswordDto,
   UpdateUserDto,
-} from "@/types/zod/create-account";
+} from "@/types/zod/accounts";
 import { serverFetch } from "../auth/server";
 
 export async function createUser(data: CreateUserDto) {

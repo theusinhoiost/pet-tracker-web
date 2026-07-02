@@ -59,7 +59,8 @@ export const PublicPetSchema = z.object({
 
 export const UpdatePetSchema = PetBaseSchema.omit({
   birthDate: true,
-  image: true,
+  species: true,
+  name: true,
 }).partial();
 
 export type CreatePetDto = z.infer<typeof CreatePetSchema>;

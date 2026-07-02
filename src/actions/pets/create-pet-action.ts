@@ -1,6 +1,6 @@
 "use server";
 import { createPet } from "@/services/api/pet";
-import { CreatePetSchema, PublicPetDto } from "@/types/zod/create-pet";
+import { CreatePetSchema, PublicPetDto } from "@/types/zod/pets";
 import { getZodErrorMessages } from "@/utils/get-zod-error-messages";
 
 type CreatePetActionState = {

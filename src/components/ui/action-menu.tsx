@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { EllipsisVertical, Pencil, Trash2Icon } from "lucide-react";
+import { EllipsisVertical, Pencil, Trash2Icon, Loader2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -22,12 +22,14 @@ interface ActionsMenuProps {
   onEdit: () => void;
   onDelete?: () => void;
   itemName?: string;
+  isDeleting?: boolean; // ← Novo prop
 }
 
 export function ActionsMenu({
   onEdit,
   onDelete,
   itemName = "pet",
+  isDeleting = false,
 }: ActionsMenuProps) {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
@@ -39,28 +41,30 @@ export function ActionsMenu({
             variant="ghost"
             size="icon"
             className="rounded-full h-8 w-8 text-muted-foreground hover:text-foreground"
+            disabled={isDeleting}
           >
             <EllipsisVertical className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
-
         <DropdownMenuContent align="end" className="w-40">
           <DropdownMenuItem onClick={onEdit} className="cursor-pointer">
             <Pencil className="mr-2 h-4 w-4" />
             Editar
           </DropdownMenuItem>
+
           {onDelete && (
             <DropdownMenuItem
               onClick={() => setShowDeleteDialog(true)}
               className="cursor-pointer text-destructive focus:text-destructive"
-              variant="destructive"
+              disabled={isDeleting}
             >
-              <Trash2Icon className="mr-2 h-4 w-4 " />
+              <Trash2Icon className="mr-2 h-4 w-4" />
               Excluir
             </DropdownMenuItem>
           )}
         </DropdownMenuContent>
       </DropdownMenu>
+
       {onDelete && (
         <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
           <DialogContent>
@@ -74,11 +78,11 @@ export function ActionsMenu({
                 pode ser desfeita.
               </DialogDescription>
             </DialogHeader>
-
             <DialogFooter>
               <Button
                 variant="outline"
                 onClick={() => setShowDeleteDialog(false)}
+                disabled={isDeleting}
               >
                 Cancelar
               </Button>
@@ -88,8 +92,16 @@ export function ActionsMenu({
                   onDelete();
                   setShowDeleteDialog(false);
                 }}
+                disabled={isDeleting}
               >
-                Sim, excluir
+                {isDeleting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Excluindo...
+                  </>
+                ) : (
+                  "Sim, excluir"
+                )}
               </Button>
             </DialogFooter>
           </DialogContent>

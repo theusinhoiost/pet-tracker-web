@@ -17,7 +17,7 @@ import { BirthPicker } from "../ui/birth-picker";
 import { Button } from "../ui/button";
 import { useActionState, useEffect } from "react";
 import { createPetAction } from "@/actions/pets/create-pet-action";
-import { PublicPetDto } from "@/types/zod/create-pet";
+import { PublicPetDto } from "@/types/zod/pets";
 import { PetImageUploader } from "../ui/petImageUploader";
 import { toast } from "sonner";
 import { useRouter } from "next/router";

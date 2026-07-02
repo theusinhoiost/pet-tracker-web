@@ -1,5 +1,7 @@
 "use client";
+
 import Link from "next/link";
+import { useTransition } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -8,6 +10,9 @@ import { LuSyringe, LuPawPrint, LuEye } from "react-icons/lu";
 import clsx from "clsx";
 import { ActionsMenu } from "./ui/action-menu";
 import { PetCardProps } from "@/types/pet-card";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { deletePet } from "@/services/api/pet";
 
 export function PetCard({
   id,
@@ -16,7 +21,29 @@ export function PetCard({
   nextVaccineDate,
   imageUrl,
   showButton = true,
-}: PetCardProps) {
+  onDeleteSuccess, // callback opcional
+}: PetCardProps & { onDeleteSuccess?: () => void }) {
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+
+  const handleDelete = () => {
+    startTransition(async () => {
+      try {
+        await deletePet(id);
+        toast.success(`${name} foi excluído com sucesso! 🗑️`);
+
+        if (onDeleteSuccess) {
+          onDeleteSuccess();
+        } else {
+          router.refresh(); // Atualiza Server Component
+        }
+      } catch (error) {
+        toast.error("Não foi possível excluir o pet. Tente novamente.");
+        console.error(error);
+      }
+    });
+  };
+
   const initials = name.substring(0, 2).toUpperCase();
 
   return (
@@ -42,9 +69,9 @@ export function PetCard({
         </div>
 
         <ActionsMenu
-          onEdit={() => console.log("Editar")}
-          onDelete={() => console.log("Excluindo...")}
-          itemName="animal"
+          onEdit={() => console.log("Editar pet", id)}
+          onDelete={handleDelete}
+          itemName="pet"
         />
       </CardHeader>
 
@@ -62,11 +89,10 @@ export function PetCard({
                 "hover:text-foreground hover:transform hover:bg-primary/30",
               )}
             >
-              {nextVaccineDate && nextVaccineDate.trim() !== ""
-                ? nextVaccineDate
-                : "—"}
+              {nextVaccineDate?.trim() ? nextVaccineDate : "—"}
             </Badge>
           </div>
+
           {showButton && (
             <Button
               size="sm"

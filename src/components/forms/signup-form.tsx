@@ -10,10 +10,11 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { FcGoogle } from "react-icons/fc";
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { createUserAction } from "@/actions/user/create-user-action";
 import { EyeOff, Eye } from "lucide-react";
 import { Card, CardContent } from "../ui/card";
+import { redirect } from "next/navigation";
 const initialState = {
   user: {
     name: "",
@@ -28,6 +29,11 @@ export function SignupForm() {
     createUserAction,
     initialState,
   );
+  useEffect(() => {
+    if (state.success) {
+      redirect("/dashboard");
+    }
+  }, [state.success]);
   const [showPassword, setShowPassword] = useState(false);
   return (
     <form action={action} className="flex flex-col gap-6">
@@ -57,6 +63,19 @@ export function SignupForm() {
             placeholder="(11) 91234-5678"
             disabled={isPending}
             defaultValue={state.user?.phone}
+            onChange={(e) => {
+              let value = e.target.value.replace(/\D/g, "");
+
+              if (value.length > 11) value = value.slice(0, 11);
+
+              if (value.length > 6) {
+                value = `(${value.slice(0, 2)}) ${value.slice(2, 7)}-${value.slice(7)}`;
+              } else if (value.length > 2) {
+                value = `(${value.slice(0, 2)}) ${value.slice(2)}`;
+              }
+
+              e.target.value = value;
+            }}
           />
         </Field>
 

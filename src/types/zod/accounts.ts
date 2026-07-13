@@ -12,8 +12,8 @@ export const UserBaseSchema = z.object({
     .min(10, "Telefone inválido")
     .max(15, "Telefone inválido")
     .regex(
-      /^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$/,
-      "Formato de telefone inválido. Ex: (11) 91234-5678",
+      /^\(?\d{2}\)?[\s.-]?\d{4,5}[\s.-]?\d{4}$/,
+      "Formato de telefone inválido. Ex: (11) 91234-5678 ou 11912345678",
     )
     .trim(),
 

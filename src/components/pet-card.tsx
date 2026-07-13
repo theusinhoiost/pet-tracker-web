@@ -27,6 +27,8 @@ export function PetCard({
   const router = useRouter();
 
   const handleDelete = () => {
+    if (isPending) return;
+
     startTransition(async () => {
       const result = await deletePetAction(id);
 
@@ -70,7 +72,7 @@ export function PetCard({
         </div>
 
         <ActionsMenu
-          onEdit={() => console.log("Editar pet", id)}
+          onEdit={() => router.push(`/dashboard/pet/${id}/edit`)}
           onDelete={handleDelete}
           itemName="pet"
         />

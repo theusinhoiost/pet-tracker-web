@@ -11,6 +11,7 @@ import { getPetByIdAction } from "@/actions/pets/get-pet-by-id-action";
 import { toast } from "sonner";
 import { updatePet } from "@/actions/pets/update-pet-action";
 import { Textarea } from "@/components/ui/textarea";
+import { petSpeciesLabels } from "@/types/pet-species";
 interface PetForm {
   name: string;
   race: string;
@@ -81,7 +82,6 @@ export default function EditPetPage() {
       await updatePet(params.id, form);
       toast.success("Pet atualizado com sucesso!");
       router.push(`/dashboard/pet/${params.id}`);
-      // router.refresh() não é necessário após push em app router
     } catch (error) {
       console.error(error);
       toast.error("Erro ao atualizar o pet");
@@ -113,7 +113,7 @@ export default function EditPetPage() {
         Voltar
       </Button>
 
-      <Card>
+      <Card className="max-w-7xl mx-auto">
         <CardHeader>
           <CardTitle className="text-2xl">Editar Pet</CardTitle>
         </CardHeader>
@@ -124,14 +124,7 @@ export default function EditPetPage() {
               {/* Nome */}
               <div className="space-y-2">
                 <Label htmlFor="name">Nome</Label>
-                <Input
-                  id="name"
-                  value={form.name}
-                  onChange={(e) =>
-                    setForm((prev) => ({ ...prev, name: e.target.value }))
-                  }
-                  required
-                />
+                <Input id="name" value={form.name} disabled />
               </div>
 
               {/* Raça */}
@@ -150,22 +143,15 @@ export default function EditPetPage() {
               {/* Espécie */}
               <div className="space-y-2">
                 <Label htmlFor="species">Espécie</Label>
-                <select
+                <Input
                   id="species"
-                  value={form.species}
-                  onChange={(e) =>
-                    setForm((prev) => ({ ...prev, species: e.target.value }))
+                  value={
+                    petSpeciesLabels[
+                      form.species as keyof typeof petSpeciesLabels
+                    ]
                   }
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                  required
-                >
-                  <option value="">Selecione a espécie</option>
-                  {speciesOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
+                  disabled
+                />
               </div>
 
               {/* Data de Nascimento */}
@@ -175,9 +161,7 @@ export default function EditPetPage() {
                   id="birthDate"
                   type="date"
                   value={form.birthDate}
-                  onChange={(e) =>
-                    setForm((prev) => ({ ...prev, birthDate: e.target.value }))
-                  }
+                  disabled
                 />
               </div>
             </div>

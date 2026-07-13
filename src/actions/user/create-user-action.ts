@@ -1,11 +1,7 @@
 "use server";
 
 import { createUser } from "@/services/api/user";
-import {
-  CreateUserSchema,
-  PublicUserDto,
-  PublicUserSchema,
-} from "@/types/zod/accounts";
+import { CreateUserSchema, PublicUserDto } from "@/types/zod/accounts";
 import { getZodErrorMessages } from "@/utils/get-zod-error-messages";
 
 type CreateUserActionState = {
@@ -18,25 +14,29 @@ export async function createUserAction(
   state: CreateUserActionState,
   formData: FormData,
 ): Promise<CreateUserActionState> {
-  if (!(formData instanceof FormData)) {
+  const formObj = {
+    name: formData.get("name"),
+    email: formData.get("email"),
+    phone: formData.get("phone"),
+    password: formData.get("password"),
+    confirmPassword: formData.get("confirmPassword"),
+  };
+
+  const parsed = CreateUserSchema.safeParse(formObj);
+
+  if (!parsed.success) {
     return {
-      user: state.user,
-      errors: ["Dados inválidos"],
+      user: {
+        name: String(formData.get("name") || ""),
+        email: String(formData.get("email") || ""),
+        phone: String(formData.get("phone") || ""),
+      },
+      errors: getZodErrorMessages(parsed.error.format()),
       success: false,
     };
   }
+  const user = await createUser(parsed.data);
 
-  const formObj = Object.fromEntries(formData.entries());
-  const parsedFormData = CreateUserSchema.safeParse(formObj);
-
-  if (!parsedFormData.success) {
-    return {
-      user: PublicUserSchema.parse(formObj),
-      errors: getZodErrorMessages(parsedFormData.error.format()),
-      success: false,
-    };
-  }
-  const user = await createUser(parsedFormData.data);
   return {
     user,
     errors: [],

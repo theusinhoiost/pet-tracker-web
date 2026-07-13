@@ -13,6 +13,10 @@ export function PetImageUploader() {
       setPreview(null);
       return;
     }
+    console.log(file);
+    console.log(file?.name);
+    console.log(file?.size);
+    console.log(file?.type);
     // Revoga URL anterior para não vazar memória
     if (preview) URL.revokeObjectURL(preview);
     setPreview(URL.createObjectURL(file));
@@ -46,7 +50,7 @@ export function PetImageUploader() {
           <>
             <p className="font-medium">Clique para selecionar uma foto</p>
             <p className="text-sm text-muted-foreground">
-              PNG, JPG ou WEBP • Máx. 5MB
+              PNG, JPG ou WEBP • Máx. 3MB
             </p>
           </>
         )}

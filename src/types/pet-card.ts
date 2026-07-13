@@ -4,5 +4,5 @@ export interface PetCardProps {
   race: string;
   nextVaccineDate: string;
   showButton?: boolean; // Opcional
-  imageUrl: string;
+  imageUrl?: string | null;
 }

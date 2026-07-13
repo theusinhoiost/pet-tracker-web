@@ -20,8 +20,8 @@ import { createPetAction } from "@/actions/pets/create-pet-action";
 import { PublicPetDto } from "@/types/zod/pets";
 import { PetImageUploader } from "../ui/petImageUploader";
 import { toast } from "sonner";
-import { useRouter } from "next/router";
 import { redirect } from "next/navigation";
+import { Textarea } from "../ui/textarea";
 
 const initialState = {
   pet: {
@@ -29,7 +29,8 @@ const initialState = {
     birthDate: "",
     race: "",
     species: "dog" as const,
-    image: null,
+    imageUrl: null,
+    notes: "",
   } as PublicPetDto,
   errors: [],
   success: false,
@@ -109,7 +110,18 @@ export function CreatePetForm({
                   defaultValue={state.pet?.race}
                 />
               </Field>
-
+              {/* CAMPO: NOTAS */}
+              <Field>
+                <FieldLabel htmlFor="notes">Observações</FieldLabel>
+                <Textarea
+                  id="observations"
+                  name="observations"
+                  placeholder="Observações sobre o pet (comportamento, vacinas, alergias, histórico, etc...)"
+                  defaultValue={state.pet?.notes || ""}
+                  rows={4}
+                  className="resize-y min-h-25"
+                />
+              </Field>
               {/* CAMPO: UPLOAD DE IMAGEM */}
               <Field>
                 <PetImageUploader />

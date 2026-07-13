@@ -1,66 +1,62 @@
 "use client";
 
 import * as React from "react";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
+import { Calendar as CalendarIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Field, FieldLabel } from "@/components/ui/field";
-import { Popover, PopoverContent, PopoverTrigger } from "./popover";
-import { Calendar } from "./calendar";
-import clsx from "clsx";
 
 type BirthPickerProps = {
   defaultValue?: string;
 };
 
 export function BirthPicker({ defaultValue }: BirthPickerProps) {
-  const [open, setOpen] = React.useState(false);
-
   const [date, setDate] = React.useState<Date | undefined>(() => {
     if (defaultValue) {
-      const parsedDate = new Date(defaultValue);
-
-      if (!isNaN(parsedDate.getTime())) {
-        return parsedDate;
-      }
+      const d = new Date(defaultValue);
+      if (!isNaN(d.getTime())) return d;
     }
-
     return new Date();
   });
 
   return (
-    <Field className="mx-auto w-44">
-      <FieldLabel htmlFor="date">Data de nascimento</FieldLabel>
+    <Field>
+      <FieldLabel>Data de Nascimento</FieldLabel>
 
       <input
         type="hidden"
         name="birthDate"
-        value={date ? date.toISOString() : ""}
+        value={date ? date.toISOString().split("T")[0] : ""}
       />
 
-      <Popover open={open} onOpenChange={setOpen}>
+      <Popover>
         <PopoverTrigger asChild>
           <Button
             variant="outline"
-            id="date"
-            className={clsx(
-              "justify-start",
-              !date && "text-muted-foreground hover:text-muted-foreground",
-            )}
+            className="w-full justify-start text-left font-normal"
           >
-            {date ? date.toLocaleDateString("pt-BR") : "Selecione uma data"}
+            <CalendarIcon className="mr-2 h-4 w-4" />
+            {date
+              ? format(date, "dd/MM/yyyy", { locale: ptBR })
+              : "Selecione a data"}
           </Button>
         </PopoverTrigger>
 
-        <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+        <PopoverContent className="w-auto p-0" align="start">
           <Calendar
             mode="single"
             selected={date}
+            onSelect={setDate}
             defaultMonth={date}
-            captionLayout="dropdown"
-            onSelect={(selectedDate) => {
-              setDate(selectedDate);
-              setOpen(false);
-            }}
+            disabled={(date) => date > new Date()} // ← Bloqueia datas futuras no picker
           />
         </PopoverContent>
       </Popover>

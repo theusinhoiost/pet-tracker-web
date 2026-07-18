@@ -114,8 +114,8 @@ export function CreatePetForm({
               <Field>
                 <FieldLabel htmlFor="notes">Observações</FieldLabel>
                 <Textarea
-                  id="observations"
-                  name="observations"
+                  id="notes"
+                  name="notes"
                   placeholder="Observações sobre o pet (comportamento, vacinas, alergias, histórico, etc...)"
                   defaultValue={state.pet?.notes || ""}
                   rows={4}

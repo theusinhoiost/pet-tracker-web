@@ -4,6 +4,7 @@ import Link from "next/link";
 import { LuPawPrint } from "react-icons/lu";
 import { CreatePetForm } from "@/components/forms/create-pet-form";
 import Footer from "@/components/ui/footer";
+import BackButton from "@/components/ui/back-button";
 
 export default function PetAddPage() {
   return (
@@ -18,13 +19,7 @@ export default function PetAddPage() {
             </div>
             <span className="text-lg font-semibold">PetTracker</span>
           </Link>
-
-          <Link
-            href="/dashboard"
-            className="text-sm text-muted-foreground hover:underline"
-          >
-            Voltar
-          </Link>
+          <BackButton />
         </div>
 
         {/* CONTENT */}

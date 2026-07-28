@@ -16,11 +16,11 @@ import {
 import { BirthPicker } from "../ui/birth-picker";
 import { Button } from "../ui/button";
 import { useActionState, useEffect } from "react";
-import { createPetAction } from "@/actions/pets/create-pet-action";
+import { createPetAction } from "@/actions/pets/pets-action";
 import { PublicPetDto } from "@/types/zod/pets";
 import { PetImageUploader } from "../ui/petImageUploader";
 import { toast } from "sonner";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Textarea } from "../ui/textarea";
 
 const initialState = {
@@ -44,15 +44,14 @@ export function CreatePetForm({
     createPetAction,
     initialState,
   );
+  const router = useRouter();
+
   useEffect(() => {
     if (state.success) {
-      toast.dismiss();
-      toast.success("Pet adicionado com sucesso", {
-        position: "bottom-center",
-      });
-      redirect("/dashboard");
+      toast.success("Pet adicionado com sucesso");
+      router.push("/dashboard");
     }
-  }, [state.success]);
+  }, [state.success, router]);
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>

@@ -34,6 +34,5 @@ export async function getAllPets() {
 }
 
 export async function deletePet(id: string) {
-  const response = await serverFetch(`/pet/${id}`, { method: "DELETE" });
-  return response.json();
+  await serverFetch(`/pet/${id}`, { method: "DELETE" });
 }

@@ -33,3 +33,7 @@ export async function updateUser(data: UpdateUserDto) {
 
   return response.json();
 }
+
+export async function deleteUser(id: string) {
+  await serverFetch(`/user/${id}`, { method: "DELETE" });
+}

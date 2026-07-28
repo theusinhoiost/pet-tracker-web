@@ -2,16 +2,18 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { ArrowLeft, Save, Loader2 } from "lucide-react";
+import { Save, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { getPetByIdAction } from "@/actions/pets/get-pet-by-id-action";
+
 import { toast } from "sonner";
-import { updatePet } from "@/actions/pets/update-pet-action";
+
 import { Textarea } from "@/components/ui/textarea";
 import { petSpeciesLabels } from "@/types/pet-species";
+import { getPetByIdAction, updatePet } from "@/actions/pets/pets-action";
+import BackButton from "@/components/ui/back-button";
 interface PetForm {
   name: string;
   race: string;
@@ -19,15 +21,6 @@ interface PetForm {
   birthDate: string;
   notes: string;
 }
-
-const speciesOptions = [
-  { value: "dog", label: "Cachorro" },
-  { value: "cat", label: "Gato" },
-  { value: "bird", label: "Pássaro" },
-  { value: "fish", label: "Peixe" },
-  { value: "rabbit", label: "Coelho" },
-  { value: "other", label: "Outro" },
-];
 
 export default function EditPetPage() {
   const router = useRouter();
@@ -104,14 +97,7 @@ export default function EditPetPage() {
 
   return (
     <div className="space-y-6">
-      <Button
-        variant="ghost"
-        className="flex items-center gap-2"
-        onClick={() => router.back()}
-      >
-        <ArrowLeft className="h-4 w-4" />
-        Voltar
-      </Button>
+      <BackButton />
 
       <Card className="max-w-7xl mx-auto">
         <CardHeader>

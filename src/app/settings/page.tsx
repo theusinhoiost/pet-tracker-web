@@ -26,6 +26,7 @@ import { Label } from "@/components/ui/label";
 import Header from "@/components/ui/header";
 import { LanguageSwitcher } from "@/components/ui/language-selector";
 import ThemeSettingsChanger from "@/components/ui/settings/theme-settings-changer";
+import BackButton from "@/components/ui/back-button";
 
 export default function SettingsPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -33,12 +34,18 @@ export default function SettingsPage() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       <Header />
+
       <div className="mx-auto max-w-7xl px-4 py-10">
-        {/* HEADER */}
+        {/* HEADER AJUSTADO */}
         <div className="mb-10 flex flex-col gap-3">
-          <span className="w-fit rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
-            Configurações
-          </span>
+          {/* LINHA COM VOLTAR + BADGE */}
+          <div className="flex items-center gap-3">
+            <BackButton />
+            <span className="w-fit rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
+              Configurações
+            </span>
+          </div>
+
           <div>
             <h1 className="text-4xl font-bold tracking-tight">
               Gerencie sua conta
@@ -68,15 +75,10 @@ export default function SettingsPage() {
 
               <nav className="space-y-1">
                 <SidebarItem icon={User} label="Perfil" active />
-
                 <SidebarItem icon={Bell} label="Notificações" />
-
                 <SidebarItem icon={ShieldCheck} label="Privacidade" />
-
                 <SidebarItem icon={Lock} label="Segurança" />
-
                 <SidebarItem icon={Palette} label="Aparência" />
-
                 <SidebarItem icon={Smartphone} label="Dispositivos" />
               </nav>
             </CardContent>
@@ -129,6 +131,7 @@ export default function SettingsPage() {
                 </div>
               </CardContent>
             </Card>
+
             {/* LANGUAGE */}
             <Card className="rounded-3xl border-border/50 shadow-sm">
               <CardContent className="space-y-6 p-6">
@@ -146,13 +149,13 @@ export default function SettingsPage() {
                 <LanguageSwitcher />
               </CardContent>
             </Card>
+
             {/* SECURITY */}
             <Card className="rounded-3xl border-border/50 shadow-sm">
               <CardContent className="space-y-6 p-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <h2 className="text-xl font-semibold">Segurança</h2>
-
                     <p className="text-sm text-muted-foreground">
                       Proteja sua conta e altere sua senha.
                     </p>
@@ -212,7 +215,6 @@ export default function SettingsPage() {
                 <div className="flex items-center justify-between">
                   <div>
                     <h2 className="text-xl font-semibold">Notificações</h2>
-
                     <p className="text-sm text-muted-foreground">
                       Escolha como deseja receber avisos.
                     </p>

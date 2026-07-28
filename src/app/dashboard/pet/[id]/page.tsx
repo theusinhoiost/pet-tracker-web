@@ -1,19 +1,16 @@
-import { PetCard } from "@/components/pet-card";
-import { ChartLineDots } from "@/components/ui/graph-card";
+import { getLastWeightsByPetId } from "@/services/api/weight";
+import PetInfosClient from "./pet-infos-client";
 
-export default function PetInfos() {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <ChartLineDots />
+interface PetInfosPageProps {
+  params: Promise<{
+    id: string;
+  }>;
+}
 
-      <PetCard
-        id={"43434"}
-        name={"Jubao"}
-        race={"swdewretret"}
-        nextVaccineDate={"22/03/2025"}
-        showButton={false}
-        imageUrl={""}
-      />
-    </div>
-  );
+export default async function PetInfosPage({ params }: PetInfosPageProps) {
+  const { id } = await params;
+
+  const weights = await getLastWeightsByPetId(id);
+
+  return <PetInfosClient petId={id} weights={weights} />;
 }

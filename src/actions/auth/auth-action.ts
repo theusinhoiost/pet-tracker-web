@@ -39,8 +39,7 @@ export async function loginAction(
   }
 
   let data: LoginResponseDto;
-  console.log("API_URL:", API_URL);
-  console.log("LOGIN PAYLOAD:", parsedFormData.data);
+
   try {
     const response = await fetch(`${API_URL}/auth/login`, {
       method: "POST",

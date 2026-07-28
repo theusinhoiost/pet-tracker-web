@@ -16,15 +16,9 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
-
-interface Weight {
-  id: string;
-  value: number;
-  measurementDay: string; // ou Date, dependendo de como a API retorna
-}
-
+import { WeightDto } from "@/types/zod/weight"; // ← usa o tipo do Zod
 interface ChartLineDotsProps {
-  weights: Weight[];
+  weights: WeightDto[];
 }
 
 const chartConfig = {
@@ -34,7 +28,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function ChartLineDots({ weights }: ChartLineDotsProps) {
+export default function ChartLineDots({ weights }: ChartLineDotsProps) {
   if (!weights.length) {
     return (
       <Card className="bg-card text-card-foreground shadow-sm">

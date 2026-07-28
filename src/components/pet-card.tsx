@@ -12,7 +12,7 @@ import { ActionsMenu } from "./ui/action-menu";
 import { PetCardProps } from "@/types/pet-card";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { deletePetAction } from "@/actions/pets/delete-pet-action";
+import { deletePetAction } from "@/actions/pets/pets-action";
 
 export function PetCard({
   id,

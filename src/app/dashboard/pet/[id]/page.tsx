@@ -1,5 +1,5 @@
 import { getLastWeightsByPetId } from "@/services/api/weight";
-import PetInfosClient from "./pet-infos-client";
+import ChartLineDots from "./pet-infos-client";
 
 interface PetInfosPageProps {
   params: Promise<{
@@ -12,5 +12,5 @@ export default async function PetInfosPage({ params }: PetInfosPageProps) {
 
   const weights = await getLastWeightsByPetId(id);
 
-  return <PetInfosClient petId={id} weights={weights} />;
+  return <ChartLineDots weights={weights} />;
 }

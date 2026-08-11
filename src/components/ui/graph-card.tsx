@@ -1,8 +1,7 @@
 "use client";
 
-import { TrendingUp } from "lucide-react";
+import { Minus, TrendingDown, TrendingUp } from "lucide-react";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
-
 import {
   Card,
   CardContent,
@@ -40,15 +39,17 @@ const chartConfig = {
 export function ChartLineDots({ petId, weights }: ChartLineDotsProps) {
   if (!weights.length) {
     return (
-      <Card className="bg-card text-card-foreground shadow-sm">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <div>
-            <CardTitle>Peso do animal</CardTitle>
+      <Card className="w-full bg-card text-card-foreground shadow-sm">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 gap-2">
+          <div className="min-w-0">
+            <CardTitle className="text-base sm:text-lg">
+              Peso do animal
+            </CardTitle>
             <CardDescription>Histórico das últimas pesagens</CardDescription>
           </div>
           <AddWeightDialog petId={petId} />
         </CardHeader>
-        <CardContent className="flex h-72 items-center justify-center text-muted-foreground">
+        <CardContent className="flex h-64 items-center justify-center text-muted-foreground text-sm">
           Nenhuma pesagem cadastrada.
         </CardContent>
       </Card>
@@ -74,61 +75,76 @@ export function ChartLineDots({ petId, weights }: ChartLineDotsProps) {
   const difference = lastWeight - firstWeight;
 
   return (
-    <Card className="bg-card text-card-foreground shadow-sm hover:shadow-md transition-all duration-300 border-border/50">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <div>
-          <CardTitle>Peso do animal</CardTitle>
+    <Card className="w-full bg-card text-card-foreground shadow-sm hover:shadow-md transition-all duration-300 border-border/50">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 gap-2">
+        <div className="min-w-0">
+          <CardTitle className="text-base sm:text-lg">Peso do animal</CardTitle>
           <CardDescription>Últimas {chartData.length} pesagens</CardDescription>
         </div>
         <AddWeightDialog petId={petId} />
       </CardHeader>
 
-      <CardContent>
-        <ChartContainer config={chartConfig}>
+      <CardContent className="px-2 sm:px-6">
+        {/* altura fixa + overflow controlado */}
+        <ChartContainer config={chartConfig} className="h-[240px] w-full">
           <LineChart
             accessibilityLayer
             data={chartData}
             margin={{
-              top: 12,
-              right: 12,
-              left: 12,
+              top: 8,
+              right: 8,
+              left: 0,
               bottom: 0,
             }}
           >
-            <CartesianGrid vertical={false} />
+            <CartesianGrid vertical={false} strokeDasharray="3 3" />
             <XAxis
               dataKey="date"
               tickLine={false}
               axisLine={false}
               tickMargin={8}
+              fontSize={11}
             />
-            <YAxis tickLine={false} axisLine={false} width={40} unit="kg" />
+            <YAxis
+              tickLine={false}
+              axisLine={false}
+              width={32}
+              fontSize={11}
+              unit="kg"
+            />
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
             <Line
               type="monotone"
               dataKey="weight"
               stroke="var(--color-weight)"
-              strokeWidth={3}
+              strokeWidth={2.5}
               dot={{
-                r: 5,
+                r: 4,
                 fill: "var(--color-weight)",
               }}
               activeDot={{
-                r: 7,
+                r: 6,
               }}
             />
           </LineChart>
         </ChartContainer>
       </CardContent>
 
-      <CardFooter className="flex-col items-start gap-2 text-sm">
+      <CardFooter className="flex-col items-start gap-1.5 text-sm px-4 sm:px-6">
         <div className="flex items-center gap-2 font-medium">
           {difference > 0
             ? `Ganhou ${difference.toFixed(1)} kg`
             : difference < 0
               ? `Perdeu ${Math.abs(difference).toFixed(1)} kg`
               : "Peso estável"}
-          <TrendingUp className="h-4 w-4" />
+
+          {difference > 0 ? (
+            <TrendingUp className="h-4 w-4 shrink-0 text-emerald-500" />
+          ) : difference < 0 ? (
+            <TrendingDown className="h-4 w-4 shrink-0 text-rose-500" />
+          ) : (
+            <Minus className="h-4 w-4 shrink-0 text-muted-foreground" />
+          )}
         </div>
         <p className="text-muted-foreground">
           Peso atual: <strong>{lastWeight.toFixed(1)} kg</strong>

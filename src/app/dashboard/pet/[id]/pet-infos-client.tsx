@@ -17,10 +17,14 @@ export default function PetInfosClient({
   vaccines,
 }: PetInfosClientProps) {
   return (
-    <div className="space-y-6">
-      <div className="grid gap-6 lg:grid-cols-2">
-        <ChartLineDots petId={petId} weights={weights} />
-        <VaccinesTable petId={petId} vaccines={vaccines} />
+    <div className="w-full space-y-6">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="min-w-0 w-full">
+          <ChartLineDots petId={petId} weights={weights} />
+        </div>
+        <div className="min-w-0 w-full">
+          <VaccinesTable petId={petId} vaccines={vaccines} />
+        </div>
       </div>
     </div>
   );

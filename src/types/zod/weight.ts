@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const CreateWeightSchema = z.object({
-  id: z.uuid("ID do pet inválido"),
+  petId: z.uuid("ID do pet inválido"),
 
   value: z
     .number()
@@ -18,7 +18,7 @@ export const CreateWeightSchema = z.object({
 });
 
 export const UpdateWeightSchema = CreateWeightSchema.partial().omit({
-  id: true,
+  petId: true,
 });
 
 export const WeightSchema = z.object({

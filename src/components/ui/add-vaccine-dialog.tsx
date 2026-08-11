@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import {
   Dialog,
   DialogContent,
@@ -12,35 +14,27 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { LuPlus, LuSyringe } from "react-icons/lu";
-import { toast } from "sonner";
+import { createVaccineAction } from "@/actions/vaccines/vaccines-action";
 
-interface AddVaccineDialogProps {
-  petId: string;
-  onSuccess?: () => void;
-}
-
-export function AddVaccineDialog({ petId, onSuccess }: AddVaccineDialogProps) {
+export function AddVaccineDialog({ petId }: { petId: string }) {
   const [open, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   async function handleSubmit(formData: FormData) {
     startTransition(async () => {
-      // Exemplo de chamada para sua Server Action:
-      // const result = await addVaccineAction(petId, formData);
+      formData.append("petId", petId);
 
-      // Simulação de sucesso (remova isso quando implementar a action real)
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      const result = { success: true };
+      const result = await createVaccineAction(formData);
 
       if (!result.success) {
-        // toast.error(result.errors[0] || "Erro ao registrar vacina.");
-        toast.error("Erro ao registrar vacina (Simulação).");
+        toast.error(result.errors?.[0] || "Erro ao registrar vacina");
         return;
       }
 
       toast.success("Vacina registrada com sucesso! 💉");
-      setOpen(false); // Fecha o modal após salvar
-      if (onSuccess) onSuccess(); // Chama o callback de sucesso, se fornecido
+      router.refresh();
+      setOpen(false);
     });
   }
 
@@ -48,48 +42,55 @@ export function AddVaccineDialog({ petId, onSuccess }: AddVaccineDialogProps) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button size="sm" className="gap-2">
-          <LuPlus className="h-4 w-4" /> Nova Vacina
+          <LuPlus className="h-4 w-4" />
+          Adicionar Vacina
         </Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-106.25">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <LuSyringe className="h-5 w-5 text-primary" /> Registrar Nova Vacina
+            <LuSyringe className="h-5 w-5 text-primary" />
+            Nova Vacina
           </DialogTitle>
         </DialogHeader>
 
         <form action={handleSubmit} className="space-y-4 pt-2">
           <div className="space-y-2">
-            <Label htmlFor="vaccineName">Nome da Vacina / Dose</Label>
+            <Label htmlFor="name">Nome da Vacina</Label>
             <Input
               id="vaccineName"
               name="vaccineName"
-              type="text"
-              placeholder="Ex: Raiva - Dose 1"
+              placeholder="Ex: V10, Antirrábica, Gripe..."
               required
+              disabled={isPending}
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="applicationDate">Data de Aplicação</Label>
-              <Input
-                id="applicationDate"
-                name="applicationDate"
-                type="date"
-                defaultValue={new Date().toISOString().split("T")[0]}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="nextDueDate">Próxima Dose (Opcional)</Label>
-              <Input id="nextDueDate" name="nextDueDate" type="date" />
-            </div>
+          <div className="space-y-2">
+            <Label htmlFor="applicationDate">Data de Aplicação</Label>
+            <Input
+              id="applicationDate"
+              name="applicationDate"
+              type="date"
+              defaultValue={new Date().toISOString().split("T")[0]}
+              required
+              disabled={isPending}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="nextDueDate">Próxima Dose (opcional)</Label>
+            <Input
+              id="nextDueDate"
+              name="nextDueDate"
+              type="date"
+              disabled={isPending}
+            />
           </div>
 
           <Button type="submit" className="w-full" disabled={isPending}>
-            {isPending ? "Salvando..." : "Salvar Vacina"}
+            {isPending ? "Salvando..." : "Salvar registro"}
           </Button>
         </form>
       </DialogContent>

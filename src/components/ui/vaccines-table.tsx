@@ -20,8 +20,8 @@ import {
 import { AddVaccineDialog } from "./add-vaccine-dialog";
 
 export interface Vaccine {
-  id: string; // ← id da vacina, não petId
-  name: string;
+  id: string;
+  vaccineName: string;
   applicationDate: Date;
   nextDueDate?: Date;
   status: "APPLIED" | "PENDING" | "OVERDUE";
@@ -52,29 +52,32 @@ export function VaccinesTable({
       case "APPLIED":
         return (
           <Badge className="bg-emerald-500/15 text-emerald-600 hover:bg-emerald-500/25 border-emerald-500/30 gap-1">
-            <CheckCircle2 className="h-3.5 w-3.5" /> Aplicada
+            <CheckCircle2 className="h-3.5 w-3.5" />
+            <span className="hidden sm:inline">Aplicada</span>
           </Badge>
         );
       case "PENDING":
         return (
           <Badge className="bg-amber-500/15 text-amber-600 hover:bg-amber-500/25 border-amber-500/30 gap-1">
-            <Clock className="h-3.5 w-3.5" /> Agendada
+            <Clock className="h-3.5 w-3.5" />
+            <span className="hidden sm:inline">Agendada</span>
           </Badge>
         );
       case "OVERDUE":
         return (
           <Badge className="bg-rose-500/15 text-rose-600 hover:bg-rose-500/25 border-rose-500/30 gap-1">
-            <AlertCircle className="h-3.5 w-3.5" /> Atrasada
+            <AlertCircle className="h-3.5 w-3.5" />
+            <span className="hidden sm:inline">Atrasada</span>
           </Badge>
         );
     }
   };
 
   return (
-    <div className="space-y-3">
-      {/* Header com título + botão */}
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold flex items-center gap-2">
+    <div className="space-y-3 min-w-0">
+      {/* Header */}
+      <div className="flex items-center justify-between gap-3">
+        <h3 className="text-lg font-semibold flex items-center gap-2 truncate">
           Histórico de Vacinas
         </h3>
         <AddVaccineDialog petId={petId} />
@@ -89,44 +92,60 @@ export function VaccinesTable({
         </div>
       ) : (
         <div className="rounded-xl border border-border/50 bg-card overflow-hidden shadow-sm">
-          <Table>
-            <TableHeader className="bg-muted/30">
-              <TableRow>
-                <TableHead className="w-50">Vacina / Dose</TableHead>
-                <TableHead>Data de Aplicação</TableHead>
-                <TableHead>Próxima Dose</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Ações</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {vaccines.map((vaccine) => (
-                <TableRow key={vaccine.id}>
-                  <TableCell className="font-semibold text-foreground flex items-center gap-2">
-                    <Syringe className="h-4 w-4 text-primary" />
-                    {vaccine.name}
-                  </TableCell>
-                  <TableCell>{formatDate(vaccine.applicationDate)}</TableCell>
-                  <TableCell className="font-mono text-xs">
-                    {formatDate(vaccine.nextDueDate)}
-                  </TableCell>
-                  <TableCell>{getStatusBadge(vaccine.status)}</TableCell>
-                  <TableCell className="text-right">
-                    {onDelete && (
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-8 w-8 text-muted-foreground hover:text-destructive"
-                        onClick={() => onDelete(vaccine.id)}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    )}
-                  </TableCell>
+          {/* Scroll horizontal só na tabela */}
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader className="bg-muted/30">
+                <TableRow>
+                  <TableHead className="min-w-[140px]">Vacina / Dose</TableHead>
+                  <TableHead className="min-w-[110px]">Aplicação</TableHead>
+                  <TableHead className="min-w-[110px]">Próxima</TableHead>
+                  <TableHead className="min-w-[90px]">Status</TableHead>
+                  <TableHead className="text-right min-w-[60px]">
+                    Ações
+                  </TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+
+              <TableBody>
+                {vaccines.map((vaccine) => (
+                  <TableRow key={vaccine.id}>
+                    <TableCell className="font-semibold text-foreground">
+                      <div className="flex items-center gap-2">
+                        <Syringe className="h-4 w-4 text-primary shrink-0" />
+                        <span className="truncate max-w-[160px] sm:max-w-none">
+                          {vaccine.vaccineName}
+                        </span>
+                      </div>
+                    </TableCell>
+
+                    <TableCell className="whitespace-nowrap">
+                      {formatDate(vaccine.applicationDate)}
+                    </TableCell>
+
+                    <TableCell className="font-mono text-xs whitespace-nowrap">
+                      {formatDate(vaccine.nextDueDate)}
+                    </TableCell>
+
+                    <TableCell>{getStatusBadge(vaccine.status)}</TableCell>
+
+                    <TableCell className="text-right">
+                      {onDelete && (
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 text-muted-foreground hover:text-destructive"
+                          onClick={() => onDelete(vaccine.id)}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </div>
       )}
     </div>

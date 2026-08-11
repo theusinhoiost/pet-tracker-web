@@ -2,6 +2,7 @@
 
 import { TrendingUp } from "lucide-react";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
+
 import {
   Card,
   CardContent,
@@ -16,14 +17,16 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
+import { AddWeightDialog } from "@/components/ui/add-weight-dialog";
 
 interface Weight {
   id: string;
   value: number;
-  measurementDay: string; // ou Date, dependendo de como a API retorna
+  measurementDay: Date;
 }
 
 interface ChartLineDotsProps {
+  petId: string;
   weights: Weight[];
 }
 
@@ -34,13 +37,16 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function ChartLineDots({ weights }: ChartLineDotsProps) {
+export function ChartLineDots({ petId, weights }: ChartLineDotsProps) {
   if (!weights.length) {
     return (
       <Card className="bg-card text-card-foreground shadow-sm">
-        <CardHeader>
-          <CardTitle>Peso do animal</CardTitle>
-          <CardDescription>Histórico das últimas pesagens</CardDescription>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <div>
+            <CardTitle>Peso do animal</CardTitle>
+            <CardDescription>Histórico das últimas pesagens</CardDescription>
+          </div>
+          <AddWeightDialog petId={petId} />
         </CardHeader>
         <CardContent className="flex h-72 items-center justify-center text-muted-foreground">
           Nenhuma pesagem cadastrada.
@@ -69,9 +75,12 @@ export function ChartLineDots({ weights }: ChartLineDotsProps) {
 
   return (
     <Card className="bg-card text-card-foreground shadow-sm hover:shadow-md transition-all duration-300 border-border/50">
-      <CardHeader>
-        <CardTitle>Peso do animal</CardTitle>
-        <CardDescription>Últimas {chartData.length} pesagens</CardDescription>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <div>
+          <CardTitle>Peso do animal</CardTitle>
+          <CardDescription>Últimas {chartData.length} pesagens</CardDescription>
+        </div>
+        <AddWeightDialog petId={petId} />
       </CardHeader>
 
       <CardContent>

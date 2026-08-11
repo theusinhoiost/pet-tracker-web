@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-
 import {
   AlertCircle,
   CheckCircle2,
@@ -18,21 +17,36 @@ import {
   Syringe,
   Trash2,
 } from "lucide-react";
+import { AddVaccineDialog } from "./add-vaccine-dialog";
 
 export interface Vaccine {
-  id: string;
+  id: string; // ← id da vacina, não petId
   name: string;
-  applicationDate: string;
-  nextDueDate: string;
+  applicationDate: Date;
+  nextDueDate?: Date;
   status: "APPLIED" | "PENDING" | "OVERDUE";
 }
 
 interface VaccinesTableProps {
+  petId: string;
   vaccines: Vaccine[];
   onDelete?: (id: string) => void;
 }
 
-export function VaccinesTable({ vaccines, onDelete }: VaccinesTableProps) {
+function formatDate(date?: Date | string | null) {
+  if (!date) return "—";
+  return new Date(date).toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+}
+
+export function VaccinesTable({
+  petId,
+  vaccines,
+  onDelete,
+}: VaccinesTableProps) {
   const getStatusBadge = (status: Vaccine["status"]) => {
     switch (status) {
       case "APPLIED":
@@ -56,57 +70,65 @@ export function VaccinesTable({ vaccines, onDelete }: VaccinesTableProps) {
     }
   };
 
-  if (!vaccines || vaccines.length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center p-8 rounded-xl border border-dashed border-border/60 text-center bg-muted/10">
-        <Syringe className="h-10 w-10 text-muted-foreground/50 mb-2" />
-        <p className="text-sm text-muted-foreground font-medium">
-          Nenhuma vacina registrada para este pet ainda.
-        </p>
-      </div>
-    );
-  }
-
   return (
-    <div className="rounded-xl border border-border/50 bg-card overflow-hidden shadow-sm">
-      <Table>
-        <TableHeader className="bg-muted/30">
-          <TableRow>
-            <TableHead className="w-50">Vacina / Dose</TableHead>
-            <TableHead>Data de Aplicação</TableHead>
-            <TableHead>Próxima Dose</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead className="text-right">Ações</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {vaccines.map((vaccine) => (
-            <TableRow key={vaccine.id}>
-              <TableCell className="font-semibold text-foreground flex items-center gap-2">
-                <Syringe className="h-4 w-4 text-primary" />
-                {vaccine.name}
-              </TableCell>
-              <TableCell>{vaccine.applicationDate || "—"}</TableCell>
-              <TableCell className="font-mono text-xs">
-                {vaccine.nextDueDate || "—"}
-              </TableCell>
-              <TableCell>{getStatusBadge(vaccine.status)}</TableCell>
-              <TableCell className="text-right">
-                {onDelete && (
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8 text-muted-foreground hover:text-destructive"
-                    onClick={() => onDelete(vaccine.id)}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                )}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+    <div className="space-y-3">
+      {/* Header com título + botão */}
+      <div className="flex items-center justify-between">
+        <h3 className="text-lg font-semibold flex items-center gap-2">
+          Histórico de Vacinas
+        </h3>
+        <AddVaccineDialog petId={petId} />
+      </div>
+
+      {!vaccines || vaccines.length === 0 ? (
+        <div className="flex flex-col items-center justify-center p-8 rounded-xl border border-dashed border-border/60 text-center bg-muted/10">
+          <Syringe className="h-10 w-10 text-muted-foreground/50 mb-2" />
+          <p className="text-sm text-muted-foreground font-medium">
+            Nenhuma vacina registrada para este pet ainda.
+          </p>
+        </div>
+      ) : (
+        <div className="rounded-xl border border-border/50 bg-card overflow-hidden shadow-sm">
+          <Table>
+            <TableHeader className="bg-muted/30">
+              <TableRow>
+                <TableHead className="w-50">Vacina / Dose</TableHead>
+                <TableHead>Data de Aplicação</TableHead>
+                <TableHead>Próxima Dose</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead className="text-right">Ações</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {vaccines.map((vaccine) => (
+                <TableRow key={vaccine.id}>
+                  <TableCell className="font-semibold text-foreground flex items-center gap-2">
+                    <Syringe className="h-4 w-4 text-primary" />
+                    {vaccine.name}
+                  </TableCell>
+                  <TableCell>{formatDate(vaccine.applicationDate)}</TableCell>
+                  <TableCell className="font-mono text-xs">
+                    {formatDate(vaccine.nextDueDate)}
+                  </TableCell>
+                  <TableCell>{getStatusBadge(vaccine.status)}</TableCell>
+                  <TableCell className="text-right">
+                    {onDelete && (
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 text-muted-foreground hover:text-destructive"
+                        onClick={() => onDelete(vaccine.id)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      )}
     </div>
   );
 }

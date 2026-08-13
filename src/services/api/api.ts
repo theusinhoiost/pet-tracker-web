@@ -1,5 +1,9 @@
-import axios from "axios";
+import axios, { type AxiosError, type InternalAxiosRequestConfig } from "axios";
 import { refreshToken } from "../auth/refresh-token";
+
+interface RetryableRequestConfig extends InternalAxiosRequestConfig {
+  _retry?: boolean;
+}
 
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -8,10 +12,14 @@ export const api = axios.create({
 
 api.interceptors.response.use(
   (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
+  async (error: AxiosError) => {
+    const originalRequest = error.config as RetryableRequestConfig | undefined;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (
+      error.response?.status === 401 &&
+      originalRequest &&
+      !originalRequest._retry
+    ) {
       originalRequest._retry = true;
 
       try {
@@ -19,7 +27,9 @@ api.interceptors.response.use(
 
         return api(originalRequest);
       } catch {
-        window.location.href = "/login";
+        if (typeof window !== "undefined") {
+          window.location.href = "/login";
+        }
       }
     }
 

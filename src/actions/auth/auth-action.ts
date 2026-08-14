@@ -3,7 +3,12 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { CreateLoginSchema, LoginResponseDto } from "@/types/zod/login";
+import {
+  CreateLoginSchema,
+  LoginResponseDto,
+  LoginResponseSchema,
+} from "@/types/zod/login";
+
 import { getZodErrorMessages } from "@/utils/get-zod-error-messages";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -47,12 +52,13 @@ export async function loginAction(
         "Content-Type": "application/json",
       },
       body: JSON.stringify(parsedFormData.data),
-      credentials: "include",
+      cache: "no-store",
     });
+
     if (!response.ok) {
-      const error = await response
-        .json()
-        .catch(() => ({ message: "Credenciais inválidas" }));
+      const error = await response.json().catch(() => ({
+        message: "Credenciais inválidas",
+      }));
 
       return {
         user: null,
@@ -61,9 +67,26 @@ export async function loginAction(
       };
     }
 
-    data = await response.json();
+    const responseData = await response.json();
+
+    const parsedResponse = LoginResponseSchema.safeParse(responseData);
+
+    if (!parsedResponse.success) {
+      console.error(
+        "Resposta inválida do endpoint /auth/login:",
+        parsedResponse.error,
+      );
+
+      return {
+        user: null,
+        errors: ["Resposta inválida do servidor"],
+        success: false,
+      };
+    }
+
+    data = parsedResponse.data;
   } catch (error) {
-    console.error(error);
+    console.error("LOGIN ERROR:", error);
 
     return {
       user: null,
@@ -72,28 +95,29 @@ export async function loginAction(
     };
   }
 
-  if (!data.accessToken) {
-    return {
-      user: null,
-      errors: ["Token de acesso ausente"],
-      success: false,
-    };
-  }
-
   const cookieStore = await cookies();
 
-  cookieStore.set("accessToken", data.accessToken, {
+  cookieStore.set("__Host-accessToken", data.accessToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: true,
     sameSite: "lax",
-    maxAge: 3600,
+    maxAge: 60 * 60,
+    path: "/",
+  });
+
+  cookieStore.set("__Host-refreshToken", data.refreshToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "lax",
+    maxAge: 7 * 24 * 60 * 60,
     path: "/",
   });
 
   cookieStore.set("user", JSON.stringify(data.user), {
-    secure: process.env.NODE_ENV === "production",
+    httpOnly: false,
+    secure: true,
     sameSite: "lax",
-    maxAge: 60 * 60 * 24 * 7,
+    maxAge: 7 * 24 * 60 * 60,
     path: "/",
   });
 

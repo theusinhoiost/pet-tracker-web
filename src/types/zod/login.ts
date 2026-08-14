@@ -12,11 +12,9 @@ export const PublicLoginSchema = z.object({
   password: z.string().default(""),
 });
 
-export type CreateLoginDto = z.infer<typeof CreateLoginSchema>;
-export type PublicLoginDto = z.infer<typeof PublicLoginSchema>;
-
 export const LoginResponseSchema = z.object({
   accessToken: z.string(),
+  refreshToken: z.string(),
   user: z.object({
     id: z.string(),
     name: z.string(),
@@ -24,4 +22,6 @@ export const LoginResponseSchema = z.object({
   }),
 });
 
+export type CreateLoginDto = z.infer<typeof CreateLoginSchema>;
+export type PublicLoginDto = z.infer<typeof PublicLoginSchema>;
 export type LoginResponseDto = z.infer<typeof LoginResponseSchema>;

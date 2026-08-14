@@ -97,7 +97,7 @@ export async function loginAction(
 
   const cookieStore = await cookies();
 
-  cookieStore.set("__Host-accessToken", data.accessToken, {
+  cookieStore.set("accessToken", data.accessToken, {
     httpOnly: true,
     secure: true,
     sameSite: "lax",
@@ -105,7 +105,7 @@ export async function loginAction(
     path: "/",
   });
 
-  cookieStore.set("__Host-refreshToken", data.refreshToken, {
+  cookieStore.set("refreshToken", data.refreshToken, {
     httpOnly: true,
     secure: true,
     sameSite: "lax",

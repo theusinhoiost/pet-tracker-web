@@ -19,7 +19,7 @@ export const serverApi = axios.create({
 serverApi.interceptors.request.use(async (config) => {
   const cookieStore = await cookies();
 
-  const accessToken = cookieStore.get("__Host-accessToken")?.value;
+  const accessToken = cookieStore.get("accessToken")?.value;
 
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
@@ -49,7 +49,7 @@ serverApi.interceptors.response.use(
 
       const cookieStore = await cookies();
 
-      const newAccessToken = cookieStore.get("__Host-accessToken")?.value;
+      const newAccessToken = cookieStore.get("accessToken")?.value;
 
       if (!newAccessToken) {
         throw new Error("Novo access token não encontrado");

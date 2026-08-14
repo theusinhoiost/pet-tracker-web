@@ -4,8 +4,8 @@ import { cookies } from "next/headers";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-const ACCESS_TOKEN_COOKIE = "__Host-accessToken";
-const REFRESH_TOKEN_COOKIE = "__Host-refreshToken";
+const ACCESS_TOKEN_COOKIE = "accessToken";
+const REFRESH_TOKEN_COOKIE = "refreshToken";
 
 async function getAccessToken(): Promise<string | undefined> {
   const cookieStore = await cookies();

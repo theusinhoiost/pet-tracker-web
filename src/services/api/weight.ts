@@ -1,5 +1,5 @@
-import { serverFetch } from "@/services/auth/server";
 import { CreateWeightDto } from "@/types/zod/weight";
+import { serverFetch } from "../auth/server";
 
 export async function createWeight(data: CreateWeightDto) {
   const response = await serverFetch("/weight", {

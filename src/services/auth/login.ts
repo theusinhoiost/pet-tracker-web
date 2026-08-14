@@ -1,5 +1,5 @@
 import { CreateLoginDto, LoginResponseDto } from "@/types/zod/login";
-import { api } from "../api/api";
+import { api } from "../../services/api/api";
 
 export const login = async (
   data: CreateLoginDto,

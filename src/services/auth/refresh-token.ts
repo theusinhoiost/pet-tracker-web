@@ -12,7 +12,7 @@ type RefreshResponse = {
 export async function refreshToken(): Promise<RefreshResponse> {
   const cookieStore = await cookies();
 
-  const currentRefreshToken = cookieStore.get("__Host-refreshToken")?.value;
+  const currentRefreshToken = cookieStore.get("refreshToken")?.value;
 
   if (!currentRefreshToken) {
     throw new Error("Refresh token não encontrado");
@@ -39,7 +39,7 @@ export async function refreshToken(): Promise<RefreshResponse> {
     throw new Error("Tokens de renovação ausentes");
   }
 
-  cookieStore.set("__Host-accessToken", data.accessToken, {
+  cookieStore.set("accessToken", data.accessToken, {
     httpOnly: true,
     secure: true,
     sameSite: "lax",
@@ -47,7 +47,7 @@ export async function refreshToken(): Promise<RefreshResponse> {
     path: "/",
   });
 
-  cookieStore.set("__Host-refreshToken", data.refreshToken, {
+  cookieStore.set("refreshToken", data.refreshToken, {
     httpOnly: true,
     secure: true,
     sameSite: "lax",

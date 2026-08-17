@@ -18,12 +18,13 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import SheetNotificationCard from "@/components/ui/sheet-notification-card";
+import SheetNotificationCard from "@/components/notifications/sheet-notification-card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Link from "next/link";
 import { LogOut } from "lucide-react";
 import Header from "@/components/ui/header";
 import Footer from "@/components/ui/footer";
+import NotificationsSheet from "@/components/notifications/notifications-sheet";
 
 export default function DashboardLayout({
   children,
@@ -63,60 +64,7 @@ export default function DashboardLayout({
               </DropdownMenuGroup>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Sheet aria-description="Notificações mais recentes sobre o pet">
-            <SheetTrigger asChild>
-              <Button variant="outline" className="relative">
-                Notificações
-                {/* Badge */}
-                <span className="absolute -top-2 -right-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground">
-                  3
-                </span>
-              </Button>
-            </SheetTrigger>
-
-            <SheetContent
-              className="flex flex-col"
-              aria-describedby={undefined}
-            >
-              {/* HEADER */}
-              <SheetHeader className="border-b pb-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <SheetTitle aria-description="Aba de notificações">
-                      Notificações
-                    </SheetTitle>
-
-                    <p className="text-sm text-muted-foreground mt-1">
-                      Atualizações recentes sobre seus pets
-                    </p>
-                  </div>
-                </div>
-              </SheetHeader>
-
-              {/* LISTA */}
-              <ScrollArea className="flex-1  min-h-0">
-                <div className="flex flex-col gap-3">
-                  <div>
-                    <div className="space-y-2 mx-4 mt-2">
-                      <SheetNotificationCard />
-                      <SheetNotificationCard />
-                      <SheetNotificationCard />
-                      <SheetNotificationCard />
-                      <SheetNotificationCard />
-                      <SheetNotificationCard />
-                    </div>
-                  </div>
-                </div>
-              </ScrollArea>
-
-              {/* FOOTER */}
-              <SheetFooter className="border-t pt-4 flex-row gap-2 sm:justify-between">
-                <Button variant="default" className="flex-1">
-                  Limpar
-                </Button>
-              </SheetFooter>
-            </SheetContent>
-          </Sheet>
+          <NotificationsSheet />
         </div>
       </Header>
 

@@ -1,34 +1,55 @@
 import { PetCard } from "@/components/pet-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getNotifications, getUnreadCount } from "@/services/api/notification";
 import { getAllPets } from "@/services/api/pet";
+
 import { PetCardProps } from "@/types/pet-card";
+import { NotificationDto } from "@/types/zod/notification";
+
 import { PlusCircle } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
 import { LuBell, LuActivity, LuHeart } from "react-icons/lu";
+
 export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Dashboard - Seus Pets",
 };
 
 export default async function DashboardPage() {
   let pets: PetCardProps[] = [];
+  let unreadCount = 0;
+  let latestNotification: NotificationDto | null = null;
   let error = false;
 
   try {
-    pets = await getAllPets();
+    const [petsData, count, notifications] = await Promise.all([
+      getAllPets(),
+      getUnreadCount(),
+      getNotifications(),
+    ]);
+
+    pets = petsData;
+    unreadCount = count;
+
+    // Pega a notificação não lida mais recente
+    const unread = notifications.filter((n) => !n.read);
+    if (unread.length > 0) {
+      latestNotification = unread[0];
+    }
   } catch (err) {
-    console.error("Erro ao carregar pets:", err);
+    console.error("Erro ao carregar dados do dashboard:", err);
     error = true;
   }
 
   return (
     <div className="mx-8 m-auto">
-      {" "}
       <div className="space-y-12">
         {/* SEÇÃO DE SUMÁRIO */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Pets Ativos */}
           <Card className="bg-card shadow-sm border-border/50">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">Pets Ativos</CardTitle>
@@ -42,6 +63,7 @@ export default async function DashboardPage() {
             </CardContent>
           </Card>
 
+          {/* Alertas Próximos */}
           <Card className="bg-card shadow-sm border-border/50">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">
@@ -50,13 +72,18 @@ export default async function DashboardPage() {
               <LuBell className="h-4 w-4 text-destructive" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">1</div>
-              <p className="text-xs text-muted-foreground mt-1">
-                Vacina da Luna a expirar
+              <div className="text-2xl font-bold">{unreadCount}</div>
+              <p className="text-xs text-muted-foreground mt-1 line-clamp-1">
+                {latestNotification
+                  ? latestNotification.title
+                  : unreadCount === 0
+                    ? "Nenhum alerta no momento"
+                    : "Você tem alertas pendentes"}
               </p>
             </CardContent>
           </Card>
 
+          {/* Última Atividade */}
           <Card className="bg-card shadow-sm border-border/50">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">
@@ -65,9 +92,13 @@ export default async function DashboardPage() {
               <LuActivity className="h-4 w-4 text-chart-1" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">Hoje</div>
-              <p className="text-xs text-muted-foreground mt-1">
-                Consulta de rotina do Rex
+              <div className="text-2xl font-bold">
+                {latestNotification ? "Recente" : "—"}
+              </div>
+              <p className="text-xs text-muted-foreground mt-1 line-clamp-1">
+                {latestNotification
+                  ? latestNotification.message
+                  : "Nenhuma atividade recente"}
               </p>
             </CardContent>
           </Card>
